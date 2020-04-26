@@ -1,5 +1,5 @@
-import {BookPreview} from '../cmps/BookPreview.jsx'
-import bookService from '../services/bookService.js'
+import {BookPreview} from './BookPreview.jsx'
+import bookService from '../../services/bookService.js'
 
 export function BookList(props) {
 

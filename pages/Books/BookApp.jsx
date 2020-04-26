@@ -1,9 +1,9 @@
-import bookService from '../services/bookService.js'
-import storageService from '../services/storageService.js'
-import BookFilter from '../cmps/BookFilter.jsx'
-import { BookAdd } from '../cmps/BookAdd.jsx'
-import { BookList } from '../cmps/BookList.jsx';
-import { eventBus } from "../services/eventBusService.js";
+import bookService from '../../services/bookService.js'
+import storageService from '../../services/storageService.js'
+import BookFilter from '../../cmps/Books/BookFilter.jsx'
+import { BookAdd } from '../../cmps/Books/BookAdd.jsx'
+import { BookList } from '../../cmps/Books/BookList.jsx';
+import { eventBus } from "../../services/eventBusService.js";
 
 export class BookApp extends React.Component {
 

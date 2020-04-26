@@ -1,6 +1,6 @@
-import { LongTxt } from '../cmps/LongTxt.jsx';
-import bookService from '../services/bookService.js';
-import { ReviewAdd } from '../cmps/ReviewAdd.jsx'
+import { LongTxt } from '../../cmps/Books/LongTxt.jsx';
+import bookService from '../../services/bookService.js';
+import { ReviewAdd } from '../../cmps/Books/ReviewAdd.jsx'
 const { Link } = ReactRouterDOM
 
 export class BookDetails extends React.Component {

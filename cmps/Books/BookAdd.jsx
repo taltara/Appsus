@@ -1,4 +1,4 @@
-import bookService from '../services/bookService.js';
+import bookService from '../../services/bookService.js';
 import { BookApiPreview } from './BookApiPreview.jsx';
 
 export class BookAdd extends React.Component {

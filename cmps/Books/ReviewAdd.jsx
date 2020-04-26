@@ -1,4 +1,4 @@
-import utilService from '../services/utilService.js';
+import utilService from '../../services/utilService.js';
 
 export class ReviewAdd extends React.Component {
 

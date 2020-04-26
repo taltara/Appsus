@@ -1,5 +1,5 @@
 import {eventBus} from '../services/eventBusService.js'
-import { MsgCmp } from './MsgCmp.jsx';
+import { MsgCmp } from 'Books/MsgCmp.jsx';
 
 export class UserMsg extends React.Component {
     state = {msg: null}
