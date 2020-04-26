@@ -88,6 +88,7 @@ function query(filterBy) {
 
             maxPrice = maxPrice ? maxPrice : Infinity
             minPrice = minPrice ? minPrice : 0
+            
             gBooks = gBooks.filter(book => book.title.includes(title)
                 && (book.listPrice.amount < maxPrice)
                 && book.listPrice.amount > minPrice
