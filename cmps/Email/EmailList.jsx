@@ -1,4 +1,6 @@
 import { EmailPreview } from './EmailPreview.jsx'
+const { Link } = ReactRouterDOM
+
 
 export default function EmailList(props) {
     return (

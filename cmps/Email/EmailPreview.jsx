@@ -1,6 +1,6 @@
 const { Link } = ReactRouterDOM
 
-import { EmailDetails } from './EmailDetails.jsx'
+// import { EmailDetails } from '../../pages/Email/EmailDetails.jsx'
 
 
 export class EmailPreview extends React.Component {
@@ -26,13 +26,19 @@ export class EmailPreview extends React.Component {
         })
     }
 
+    onOpenDetails() {
+        <Link to={`/email/${this.state.email.id}`}>he</Link>
+        console.log('helooo');
+    }
+
     render() {
         const { email, onOpenEmail } = this.props
         return (
             <React.Fragment>
                 <tr className={(email.isRead) ? 'read' : 'unread'} onClick={() => {
-                    this.props.onOpenEmail(email.id)
+                    // this.props.onOpenEmail(email.id)
                     this.onToggleOpenDetails()
+                    this.onOpenDetails()
                 }}>
                     <td>
                         <input className="btn" type="checkbox" onClick={this.onSelect} />
@@ -49,8 +55,11 @@ export class EmailPreview extends React.Component {
                     <td>
                         {email.sentAt}
                     </td>
+                    <td>
+                        <Link to={`/email/${email.id}`}><i className="fas fa-expand-arrows-alt"></i></Link>
+                    </td>
                 </tr >
-                {this.state.isOpen && <EmailDetails email={email} />}
+                {/* {this.state.isOpen && <EmailDetails email={email} />} */}
             </React.Fragment>
         )
     }

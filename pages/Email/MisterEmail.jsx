@@ -8,12 +8,10 @@ export class MisterEmail extends React.Component {
     };
 
     componentDidMount() {
+        // emailService._createEmails();
         this.loadBooks();
     }
 
-    componentDidUpdate() {
-
-    }
 
     loadBooks() {
         // emailService.query(this.state.filterBy)

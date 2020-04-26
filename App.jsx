@@ -10,6 +10,7 @@ import { NavBar } from 'cmps/NavBar.jsx';
 import { About } from 'pages/About.jsx';
 import { MissKeep } from 'pages/Keep/MissKeep.jsx';
 import { MisterEmail } from 'pages/Email/MisterEmail.jsx';
+import { EmailDetails } from 'pages/Email/EmailDetails.jsx';
 // CHANGE TO 'KEEPAPP' & 'EMAILAPP'// CHANGE TO 'KEEPAPP' & 'EMAILAPP'
 
 // import { CSSTransition, TransitionGroup } from 'lib/react-transition-group.js';
@@ -26,6 +27,7 @@ export class App extends React.Component {
                         <Route history={history} component={BookDetails} path="/books/:bookName/:bookId" />
                         <Route component={BookApp} path="/books" />
                         <Route component={MissKeep} path="/keep" />
+                        <Route component={EmailDetails} path="/email/:emailId" />
                         <Route component={MisterEmail} path="/email" />
                         <Route component={About} path="/about" />
                         <Route component={Home} path="/" />
