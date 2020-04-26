@@ -13,7 +13,7 @@ export class NoteSearch extends React.Component {
         this.firstInput.current.focus();
     }
     componentDidUpdate() {
-
+        
     }
 
     handleChange = ({ target }) => {

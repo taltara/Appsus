@@ -13,13 +13,18 @@
     height: 100%;
     background-color: #202124;
     font-family: google, sans-serif;
-    margin-top: 1rem;
 }
 
-.keep-main .container {
+
+.keep-content {
+
     width: 90%;
     margin: auto;
-    background-color: #202124;
+}
+
+.keep-content-header {
+    width: 100%;
+    margin-top: 1rem;
 }
 
 /* SEARCH */
@@ -66,7 +71,6 @@
 .add-note-section textarea, .add-note-section input {
 
     width: 100%;
-    resize: none;
     padding: 0.5rem;
     font-family: google, sans-serif;
     border: none;
@@ -84,9 +88,23 @@
     justify-content: space-evenly;
 }
 
-.note input {
+.keep-main input, .keep-main textarea {
 
     outline: none;
     font-family: google, sans-serif;
 
+}
+
+.keep-main textarea {
+
+    max-height: 10rem;
+}
+
+.active-tool {
+
+    background-color: rgba(255, 215, 0, 1);
+}
+
+.todo-form {
+    width: 100%;
 }

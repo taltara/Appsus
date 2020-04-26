@@ -22,13 +22,14 @@ export class MissKeep extends React.Component {
 
     }
 
-    onAddNote = () => {
+    addNote = (note) => {
 
-
+        console.log(note);
+        this.setState(({ prevState }) => ({ notes: [ ...prevState.notes, note] }));
     }
 
-    loadNotes(searchBy) {
-        keepService.query(searchBy)
+    loadNotes() {
+        keepService.query(this.state.searchBy)
             .then(notes => {
                 this.setState({ notes: notes });
             });
@@ -44,15 +45,16 @@ export class MissKeep extends React.Component {
         const { notes } = this.state;
 
         return (
-            <section className="keep-main">
-                <div className="container flex column align-center space-center">
-
-                    <NoteSearch onSearch={this.onSearch} />
-                    <NoteAdd onAddNote={this.onAddNote}/>
+            <main className="keep-main">
+                <div className="keep-content flex column align-center space-center">
+                    <section className="keep-content-header flex column align-center space-center">
+                        <NoteSearch onSearch={this.onSearch} />
+                        <NoteAdd addNote={this.addNote} />
+                    </section>
                     <NoteList notes={notes} />
                 </div>
 
-            </section>
+            </main>
         )
     }
 };
