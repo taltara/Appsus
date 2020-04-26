@@ -1,0 +1,73 @@
+
+body {
+    margin: 0;
+    /* font-family: gilam, serif; */
+}
+
+table{
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.emails-container{
+    margin: 20px;
+    display: grid;
+    border-collapse: collapse;
+    width: 100%;
+    grid-template-columns: minmax(min-content, 0.2fr) minmax(min-content, 0.6fr) minmax(min-content, 0.6fr) minmax(min-content, 1fr) minmax(min-content, 1fr);
+}
+
+tr{
+    padding: 10px;
+    cursor: pointer;
+    border-style: solid;
+    display: contents;
+}
+
+tr:nth-child(even) td {
+    background: #ececec;
+}
+
+td{
+    padding: 10px;
+}
+.email-details-container{
+    cursor: auto;
+}
+
+.email-details{
+    grid-column: 1 / 6;
+}
+
+.top-buttons{
+    position: absolute;
+    right: 0;
+    margin: 10px;
+}
+
+.top-buttons button{
+    background: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border: 0;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    font-size: 1rem;
+    margin: 0 5px;
+    color: gray;
+    outline: none;
+}
+
+.top-buttons button .fa-star:active{
+    color: red;
+}
+
+
+.read{
+    font-weight: normal;
+}
+
+.unread{
+    font-weight: bold;
+}
