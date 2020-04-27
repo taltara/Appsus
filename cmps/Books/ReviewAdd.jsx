@@ -13,13 +13,11 @@ export class ReviewAdd extends React.Component {
     }
     
     componentDidMount() {
-        console.log(this.firstInput);
         
         this.firstInput.current.focus()
     }
     
     createReview = ({ target }) => {
-        console.log(target);
         event.preventDefault()
         
         let reviewer = target[0].value;
@@ -27,7 +25,6 @@ export class ReviewAdd extends React.Component {
         let text = target[2].value;
         let currDate = Date.now();
         this.props.onAddReview(this.props.book.id, { id: utilService.makeId(), reviewer, rating, text, currDate });
-        console.log('here');
 
         this.props.onShowReviewForm();
     }

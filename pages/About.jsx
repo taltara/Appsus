@@ -14,7 +14,6 @@ export class About extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.trollLink);
 
         this.trollLink.current.focus()
     }

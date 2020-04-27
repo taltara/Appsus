@@ -28,7 +28,6 @@ export class BookAdd extends React.Component {
         let resBook = this.state.searchRes.find((res) => {
             return res.id === id;
         });
-        console.log(resBook);
 
         let newBook = {
             id: resBook.id,

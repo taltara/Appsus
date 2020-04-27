@@ -11,7 +11,7 @@ export default {
     getById,
     // add,
     // emailIsRead,
-    isStar
+    toggleIsImportant,
 }
 
 function _createEmails() {
@@ -24,7 +24,7 @@ function _createEmails() {
     storageService.store(EMAILS_KEY, gEmails);
 }
 
-function _createEmail(id, sentBy, subject, body, isRead, sentAt, isStar) {
+function _createEmail(id, sentBy, subject, body, isRead, sentAt, isImportant) {
     return {
         id,
         sentBy,
@@ -32,20 +32,20 @@ function _createEmail(id, sentBy, subject, body, isRead, sentAt, isStar) {
         body,
         isRead,
         sentAt,
-        isStar
+        isImportant
     }
 }
 
-function query(filterBy) {
-    var filteredEmails = gEmails.slice()
+function query(currView, filterBy) {
+    var filteredEmails= storageService.load(EMAILS_KEY);
+    if(!filteredEmails) filteredEmails = gEmails.slice()
+    if (currView === 'Important') {
+        filteredEmails = gEmails.filter(email => email.isImportant);
+    }
     if (filterBy) {
-        var { title, maxPrice, minPrice } = filterBy
-
-        maxPrice = maxPrice ? maxPrice : Infinity
-        minPrice = minPrice ? minPrice : 0
-        filteredEmails = gEmails.filter(email => email.title.includes(title)
-            && (email.listPrice.amount < maxPrice)
-            && (email.listPrice.amount > minPrice)
+        var { title } = filterBy
+        filteredEmails = filteredEmails.filter(email => email.subject.includes(title) ||
+            email.sentBy.includes(title) || email.body.includes(title)
         )
     }
     return Promise.resolve(filteredEmails);
@@ -61,7 +61,6 @@ function query(filterBy) {
 
 function getById(id) {
     var email = gEmails.find(email => email.id === id);
-    console.log('ne page', email);
 
     return Promise.resolve(email)
 }
@@ -79,15 +78,19 @@ function emailIsRead(emailId) {
 function remove(emailId) {
     let emailIdx = gEmails.findIndex((email) => email.id === emailId)
     if (emailIdx === -1) return;
-    console.log(emailIdx);
     gEmails.splice(emailIdx, 1);
     storageService.store(EMAILS_KEY, gEmails);
     return Promise.resolve();
 }
 
-function isStar(id,isStar) {
+function toggleIsImportant(id) {
+
     let emailIdx = gEmails.findIndex((email) => email.id === id)
-    gEmails[emailIdx].isStar = isStar;
-    console.log('star',gEmails);
+    gEmails[emailIdx].isImportant = !gEmails[emailIdx].isImportant;
+    storageService.store(EMAILS_KEY, gEmails);
+    return Promise.resolve(gEmails[emailIdx]);
 }
 
+// function getAllImportantEmails() {
+//     return gEmails.map(email => email.isImportant);
+// }

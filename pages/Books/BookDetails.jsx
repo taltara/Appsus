@@ -26,10 +26,8 @@ export class BookDetails extends React.Component {
     }
 
     loadBook(id) {
-        console.log(id);
         bookService.getById(id)
             .then(book => {
-                console.log(book);
 
                 let bookDesc = book.description;
                 let isLongTxtShown = (bookDesc.length > 100) ? false : undefined;
@@ -44,7 +42,6 @@ export class BookDetails extends React.Component {
 
         const id = this.props.match.params.bookId;
         this.loadBook(id);
-        console.log(id);
 
 
         this.prevNext = bookService.getNextPrevCars(id);
@@ -57,7 +54,6 @@ export class BookDetails extends React.Component {
 
         this.prevNext = bookService.getNextPrevCars(id);
         if (prevProps.match.params.bookId !== this.props.match.params.bookId) {
-            console.log('Route changed, so we should load the new car');
             this.loadBook(this.props.match.params.bookId);
             this.setState({ addClass: '' });
         }
@@ -67,7 +63,6 @@ export class BookDetails extends React.Component {
 
         bookService.getById(bookId)
             .then(book => {
-                // console.log(book, review);
                 let reviews = book.reviews.slice();
                 let reviewIdx = reviews.findIndex(review => {
 
@@ -85,7 +80,6 @@ export class BookDetails extends React.Component {
 
         bookService.getById(bookId)
             .then(book => {
-                console.log(book, review);
 
                 (book.reviews) ? book.reviews.push(review) : book.reviews = [review];
                 bookService.save(book);
@@ -95,7 +89,6 @@ export class BookDetails extends React.Component {
     }
 
     onShowReviewForm = () => {
-        console.log('here');
 
         this.setState(({ showAddReview }) => ({ showAddReview: !showAddReview }));
     }

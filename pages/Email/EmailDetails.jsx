@@ -3,8 +3,7 @@ import emailService from '../../services/emailService.js'
 
 export class EmailDetails extends React.Component {
     state = {
-        email: null,
-        star: false
+        email: null
     }
 
     componentDidMount() {
@@ -12,6 +11,8 @@ export class EmailDetails extends React.Component {
     }
 
     loadEmail() {
+        console.log('loadEmail props',this.props);
+        
         const id = this.props.match.params.emailId;
         emailService.getById(id)
             .then(email => {
@@ -19,22 +20,19 @@ export class EmailDetails extends React.Component {
             })
     }
 
-
     onToggleStar = () => {
-        this.setState((prevState) => {
-            return {
-                star: !prevState.star
-            }
+        emailService.toggleIsImportant(this.state.email.id )
+        .then((email) => {
+            console.log('from component', this.state.star);
+            this.setState({email})
         })
-        console.log(this.state.star);
-        emailService.isStar(this.state.email.id,this.state.star);
     }
 
     checkClassName() {
         if (this.state.star) {
-            return 'far fa-star'
+            return 'fas fa-star'
         }
-        return 'fas fa-star'
+        return 'far fa-star'
     }
 
     removeEmail = () => {
@@ -44,41 +42,52 @@ export class EmailDetails extends React.Component {
             })
             .catch(err => {
                 alert('OOPs, try again');
-                console.log('ERR:', err);
             })
     }
+    onCloseEmail = () => {
+        this.props.history.push('/email')
+    }
 
+    showSentAtAsDate = (sentAt) => {
+        let date = new Date(sentAt)
+        if (date.getDate() === new Date().getDate()) return `${date.getHours()}:${date.getMinutes()}`
+        return `${date.getDate()}/${date.getMonth() + 1}`
+    }
 
 
     render() {
         const { email } = this.state
         const loading = <p>Loading...</p>
+        if (email) console.log('when load email.isImportant', email.isImportant);
 
         return (
             (!email) ? loading : <div className="email-details-container">
-                <div className="email-details">
+                <div className="top-buttons-container">
                     <section className="top-buttons">
                         <button >
                             <i className="fas fa-reply"></i>
                         </button>
-                        <button className={this.checkClassName()} onClick={() => {
-                            // emailService.isMarked(email.id)
+                        <button className={(email.isImportant) ? 'fas fa-star' : 'far fa-star'} onClick={() => {
                             this.onToggleStar();
+
+
                         }}>
                         </button>
                         <button onClick={this.removeEmail}>
                             <i className="fas fa-trash"></i>
                         </button>
-                        <button onClick={() =>
-                            emailService.onExpand(email.id)}>
-                            <i className="fas fa-expand-arrows-alt"></i>
+                        <button onClick={this.onCloseEmail}>
+                            <i className="fas fa-times-circle"></i>
                         </button>
                     </section>
-                    <h2> {email.sentBy} </h2>
-                    <p>{email.subject}</p>
-                    <p>{email.body}</p>
                 </div>
-            </div >
+                <div className="email-body">
+                    <h2> sent by:{email.sentBy} </h2>
+                    <h1>subject: {email.subject}</h1>
+                    <p>{email.body}</p>
+                    <p>date: {this.showSentAtAsDate(email.sentAt)}</p>
+                </div>
+            </div>
         )
     }
 }

@@ -24,7 +24,6 @@ export class MissKeep extends React.Component {
 
     addNote = (note) => {
 
-        console.log(note);
         this.setState(({ prevState }) => ({ notes: [ ...prevState.notes, note] }));
     }
 

@@ -1,27 +1,63 @@
 
+*{
+    box-sizing: border-box;
+}
+
+
 body {
     margin: 0;
     /* font-family: gilam, serif; */
 }
 
+.emails-main{
+    height: calc(100vh - 5rem)
+}
+
+/********************************* serch-input ****************************/
+
+.email-search-and-table .search-section{
+    margin: 10px auto;
+    width: 80%;
+    margin-top: 40px;
+    max-width: 50rem;
+}
+
+.filter-input{
+    width: 100%;
+    border: 2px solid rgba(0, 0, 0, 0.25);
+    border-radius: 1rem;
+    background-color: white;
+    padding: 0.5rem;
+    font-size: 30px;
+}
+
+
+/******************************* table-emails ***************************/
+
+.table-container{
+    height: 90%;
+}
+
 table{
     width: 100%;
     font-family: Arial, Helvetica, sans-serif;
+    border-left-style: solid;
 }
 
 .emails-container{
     margin: 20px;
     display: grid;
     border-collapse: collapse;
-    width: 100%;
+    width: 70vw;
+    margin-left: 0;
     grid-template-columns: minmax(min-content, 0.2fr) minmax(min-content, 0.6fr) minmax(min-content, 0.6fr) minmax(min-content, 1fr) minmax(min-content, 1fr) minmax(min-content, 0.2fr);
 }
 
 tr{
     padding: 10px;
-    cursor: pointer;
     border-style: solid;
     display: contents;
+    width: 100%;
 }
 
 tr:nth-child(even) td {
@@ -31,12 +67,19 @@ tr:nth-child(even) td {
 td{
     padding: 10px;
 }
+
+.link-to-email-details{
+    cursor: pointer;
+}
+
+/********************************** email-details *******************************/
+
 .email-details-container{
     cursor: auto;
 }
-
-.email-details{
-    grid-column: 1 / 6;
+.top-buttons-container{
+    width: 100%;
+    position: relative;
 }
 
 .top-buttons{
@@ -48,21 +91,56 @@ td{
 .top-buttons button{
     background: white;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     cursor: pointer;
     border: 0;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    font-size: 1rem;
-    margin: 0 5px;
+    font-size: 2rem;
+    margin: 0 10px;
     color: gray;
     outline: none;
+    /* padding: 10px; */
 }
 
-.top-buttons button .fa-star{
-    color: red;
+/************** email-body *****************/
+
+.email-body{
+    /* margin: 20px; */
 }
 
+/*************** email-nav ****************/
+.email-nav-container {
+    width: 250px;
+    /* z-index: -1; */
+    top: 0;
+    left: 0;
+    transition: 0.5s;
+    position: relative;
+    background-color: #ececec;
+    cursor: pointer;
+}
+
+.email-nav-links{
+    padding: 0;
+    margin: 0;
+   
+}
+
+.email-nav-link{
+    margin: 10px;
+    cursor: pointer;
+    width: 90%;
+    padding: 10px;
+    font-size: 2rem;
+    color: #4e4a4a;
+    transition: ease-in-out 0.15s;
+}
+
+.email-nav-link:hover{
+    background-color: white;
+    border-radius: 10px;
+}
 
 .read{
     font-weight: normal;

@@ -1,5 +1,6 @@
 const { Link } = ReactRouterDOM
 
+
 // import { EmailDetails } from '../../pages/Email/EmailDetails.jsx'
 
 
@@ -28,7 +29,12 @@ export class EmailPreview extends React.Component {
 
     onOpenDetails() {
         <Link to={`/email/${this.state.email.id}`}>he</Link>
-        console.log('helooo');
+    }
+
+    showSentAtAsDate = (sentAt) => {
+        let date = new Date(sentAt)
+        if (date.getDate() === new Date().getDate()) return `${date.getHours()}:${date.getMinutes()}`
+        return `${date.getDate()}/${date.getMonth() + 1}`
     }
 
     render() {
@@ -43,19 +49,19 @@ export class EmailPreview extends React.Component {
                     <td>
                         <input className="btn" type="checkbox" onClick={this.onSelect} />
                     </td>
-                    <td className="sent-by">
+                    <td>
                         {email.sentBy}
                     </td>
-                    <td className="email-subject">
+                    <td>
                         {email.subject}
                     </td>
-                    <td className="email-body">
+                    <td>
                         {email.body}
                     </td>
                     <td>
-                        {email.sentAt}
+                        {this.showSentAtAsDate(email.sentAt)}
                     </td>
-                    <td>
+                    <td className="link-to-email-details">
                         <Link to={`/email/${email.id}`}><i className="fas fa-expand-arrows-alt"></i></Link>
                     </td>
                 </tr >

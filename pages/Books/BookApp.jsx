@@ -28,7 +28,6 @@ export class BookApp extends React.Component {
 
     onNewBook = (book) => {
 
-        console.log(book);
         bookService.add(book);
         this.loadBooks();
         eventBus.emit('show-msg', { txt: `'${book.title}'`, url: `/#/books/${book.name}/${book.id}` });
@@ -41,7 +40,6 @@ export class BookApp extends React.Component {
     }
 
     onSetFilter = (filterBy) => {
-        console.log(filterBy);
         this.setState({ filterBy: filterBy }, () => this.loadBooks());
     }
 

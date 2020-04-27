@@ -32,7 +32,6 @@ export class NoteAdd extends React.Component {
 
     onAddNote = (event) => {
         event.preventDefault();
-        console.log(this.state.note);
 
         var note = {};
         var created = Date.now();
@@ -117,7 +116,6 @@ export class NoteAdd extends React.Component {
     }
 
     onChangeNote = ({ target }) => {
-        console.log(this.state.note);
 
         const field = target.name
         const value = target.value;
@@ -126,7 +124,6 @@ export class NoteAdd extends React.Component {
     }
 
     onUserClick = () => {
-        console.log(this.state.isOpen);
         if (this.state.isOpen) return;
 
         let addNoteClass = (this.state.addNoteClass === 'column') ? '' : 'column';
