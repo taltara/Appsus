@@ -7,77 +7,94 @@ import { NoteMap } from './NoteMap.jsx';
 
 export class NoteList extends React.Component {
 
-    constructor() {
-        super();
+    componentDidMount() {
+        console.log(this.props.notes);
 
     }
-
-    state = {
-        pinnedNotes: [],
-        unpinnedNotes: [],
-    };
-
-    componentDidMount() {
+    componentDidUpdate() {
         
+    }
+
+
+    DynamicCmp = (note) => {
+
+        var el = null;
+        var addClass = '';
+        // console.log(this.props.notes);
+        
+        if(this.props.noteInFocusId === note.id){
+            addClass = 'active-note';
+        }
+
+        if (note.type === 'NoteTxt') {
+
+            el = <NoteTxt note={note} key={note.created} toggleView={this.props.toggleView} addClass={addClass} />;
+        } else if (note.type === 'NoteImg') {
+
+            el = <NoteImg note={note} key={note.created} toggleView={this.props.toggleView} addClass={addClass}  />;
+        } else if (note.type === 'NoteTodos') {
+
+            el = <NoteTodos note={note} key={note.created} toggleView={this.props.toggleView} addClass={addClass}  />;
+        } else if (note.type === 'NoteVideo') {
+
+            el = <NoteVideo note={note} key={note.created} toggleView={this.props.toggleView} addClass={addClass}  />;
+        } else if (note.type === 'NoteAudio') {
+
+            el = <NoteAudio note={note} key={note.created} toggleView={this.props.toggleView} addClass={addClass}  />;
+        } else if (note.type === 'NoteMap') {
+
+            el = <NoteMap note={note} key={note.created} toggleView={this.props.toggleView} addClass={addClass}  />;
+        }
+
+        console.log(el);
+        return el;
+    }
+
+    render() {
+
         var pinnedNotes = [];
         var unpinnedNotes = [];
 
         this.props.notes.forEach((note) => {
+            console.log(note);
 
-            if(note.isPinned) pinnedNotes.unshift(note);
+            if (note.isPinned) pinnedNotes.unshift(note);
             else unpinnedNotes.unshift(note);
         });
 
-        this.setState({ pinnedNotes, unpinnedNotes });
-
-    }
-    componentDidUpdate() {
-
-    }
-
-    DynamicCmp = (note) => {
-
-        switch (note.type) {
-
-            case 'NoteTxt':
-                return <NoteTxt note={note}/>;
-            case 'NoteImg':
-                return <NoteImg note={note}/>;
-            case 'NoteTodos':
-                return <NoteTodos note={note}/>;
-            case 'NoteVideo':
-                return <NoteVideo note={note}/>;
-            case 'NoteAudio':
-                return <NoteAudio note={note}/>;
-            case 'NoteMap':
-                return <NoteMap note={note}/>;
-            
-        }
-    }
-
-    render() {
-        const { pinnedNotes, unpinnedNotes } = this.state;
         return (
-            <section className="notes-section flex align-center space-evenly">
-                {pinnedNotes.length && 
-                    <div className="notes-pinned">
-                        {
-                            pinnedNotes.map(note => {
-
-                                return this.DynamicCmp(note);
-                            })
-                        }
-                    </div>
+            <section className="notes-section flex column align-center space-center">
+                {pinnedNotes.length &&
+                    <span className="pinned-span flex column align-start space-center wrap">
+                        <p className="notes-sector-header">Pinned</p>
+                        <div className="notes-pinned flex align-start space-start">
+                            {
+                                pinnedNotes.map(note => {
+                                    let el = this.DynamicCmp(note);
+                                    
+                                    console.log(el);
+                                    return el;
+                                })
+                            }
+                        </div>
+                    </span>
                 }
-                {unpinnedNotes.length && 
-                    <div className="notes-unpinned">
-                        {
-                            unpinnedNotes.map(note => {
+                {unpinnedNotes.length &&
+                    <span className="unpinned-span flex column align-start space-center">
+                        <p className="notes-sector-header">Unpinned</p>
 
-                                return this.DynamicCmp(note);
-                            })
-                        }
-                    </div>
+                        <div className="notes-unpinned flex align-start space-start wrap">
+                            {
+
+                                unpinnedNotes.map(note => {
+
+                                    let el = this.DynamicCmp(note);
+                                    console.log(el);
+                                    return el;
+                                })
+                            }
+                        </div>
+                    </span>
                 }
 
             </section>

@@ -47,6 +47,9 @@ body {
     font-family: gilam, serif;
 }
 
+#root {
+    height: 100%;
+}
 
 p {
     margin: 0;
@@ -124,18 +127,16 @@ textarea {
 }
 
 .main-logo {
-    width: 3rem;
-    border-radius: 50%;
-    border: 2px solid rgba(0, 0, 0, 0.75);
-    margin: auto 0;
-    background-color: white;
-    transition: ease-in-out 0.15s;
+    width: 5rem;
+    /* border-radius: 50%; */
+    /* border: 2px solid rgba(0, 0, 0, 0.75); */
+    margin: auto 0 auto 1rem;
+    /* background-color: white; */
+    transition: ease-in-out 0.3s;
 }
 
 .main-logo:hover {
-    -webkit-box-shadow: 0px 6px 5px 0px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0px 6px 5px 0px rgba(0, 0, 0, 0.5);
-    box-shadow: 0px 6px 5px 0px rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(2px 4px 6px black);
 }
 
 .nav-subtitle {
@@ -851,6 +852,10 @@ textarea {
 
 .space-center {
     justify-content: center;
+}
+
+.align-start {
+    align-items: flex-start;
 }
 
 .space-evenly {

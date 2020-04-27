@@ -1,51 +1,60 @@
-// note = {
-//     type: 'NoteTxt',
-//     info: {
-//         title: stateNote.title,
-//         txt: stateNote.txt
-//     },
-// }
+
 
 export class NoteTxt extends React.Component {
 
     constructor() {
         super();
-
     }
 
     state = {
 
         title: '',
-        txt: ''
+        txt: '',
+        opacityClass: ''
     };
 
     componentDidMount() {
-
+        console.log(this.props.note);
         this.setState({ 
-            title: this.props.note.title,
-            txt: this.props.note.txt,
+            title: this.props.note.info.title,
+            txt: this.props.note.info.txt,
         });
     }
 
     componentDidUpdate() {
 
+        if(this.state.opacityClass === '' && this.props.addClass != ''){
+            setTimeout(() => {
+                this.setState({ opacityClass: 'show-note'});
+                
+            }, 100);
+        } else if (this.state.opacityClass != '' && this.props.addClass === ''){
+
+            setTimeout(() => {
+                this.setState({ opacityClass: ''});
+                
+            }, 150);
+        }
     }
 
     handleChange = ({ target }) => {
+        console.log(target);
         const field = target.name
-        const value = (target.type === 'number') ? parseInt(target.value) : target.value;
+        const value = target.value;
 
-        this.setState(prevState => ({ filter: { ...prevState.filter, [field]: value } }), () => {
+        this.setState(({  [field]: value } ), () => {
 
         })
     }
 
+
     render() {
-        const { title, txt } = this.state;
-        return (
-            <div className="note">
-                <input type="text" className="title" value={title} onChange={this.handleChange} />
-                <textarea name="" cols="1" rows="5" placeholder="Take a note..." onChange={this.handleChange} name="txt">{txt}</textarea>
+        const { title, txt, opacityClass } = this.state;
+        const { toggleView, note, addClass } = this.props;
+        return ( //
+            <div className={`note note-txt flex column align-center space-center ${addClass} ${opacityClass}`} onClick={() => toggleView(note.id)}>
+                <input type="text" className="title" defaultValue={title} onChange={this.handleChange} />
+                <textarea name="" cols="1" rows="5" placeholder="Take a note..." onChange={this.handleChange} name="txt" value={txt}></textarea>
             </div>
         )
     }
