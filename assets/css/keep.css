@@ -8,11 +8,35 @@
     src: url('../fonts/google-bold.woff')
 }
 
+body {
+
+    width: 100%;
+    height: 100vh;
+    
+    
+}
+
+.screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(41, 41, 41, 0.6);
+    display: none;
+    transition: ease-in-out 0.3s ;
+}
+
+.menu-open .screen {
+    display: block;
+    z-index: 1;
+}
+
 .keep-main {
     width: 100%;
-    height: 100%;
-    background-color: #202124;
+    height: calc(100% - 5rem);
     font-family: google, sans-serif;
+    background-color: #202124;
 }
 
 
@@ -25,13 +49,16 @@
 .keep-content-header {
     width: 100%;
     margin-top: 1rem;
+    transition: ease-in-out 0.3s;
 }
 
 /* SEARCH */
 
 .search-section {
 
-    width: 30%;
+    width: 40%;
+    min-width: 20rem;
+    max-width: 50rem;
     border: 2px solid rgba(0, 0, 0, 0.25);
     border-radius: 1rem;
     background-color: white;
@@ -48,7 +75,7 @@
 
 .search-section img {
 
-    width: 2rem;
+    width: 1.5rem;
     cursor: pointer;
     margin-right: 1rem;
     filter: grayscale(1);
@@ -63,9 +90,12 @@
 .add-note-section {
 
     width: 40%;
+    min-width: 20rem;
+    max-width: 50rem;
     background-color: white;
     margin-top: 1rem;
     padding: 0.5rem;
+    transition: ease-in-out 0.3s;
 }
 
 .add-note-section textarea, .add-note-section input {
@@ -74,12 +104,15 @@
     padding: 0.5rem;
     font-family: google, sans-serif;
     border: none;
+    transition: ease-in-out 0.15s;
+    outline: none;
 }
 
 .add-note-tools img {
 
     width: 2rem;
     cursor: pointer;
+    transition: ease-in-out 0.15s;
 }
 
 .open-tools {
@@ -88,11 +121,20 @@
     justify-content: space-evenly;
 }
 
-.keep-main input, .keep-main textarea {
+.note input, .note textarea {
 
     outline: none;
     font-family: google, sans-serif;
+    width: 100%;
+    background-color: transparent;
+    color: white;
+    border: transparent;
+    transition: ease-in-out 0.15s;
+}
 
+.keep-main input {
+
+    font-size: 1rem;
 }
 
 .keep-main textarea {
@@ -107,4 +149,102 @@
 
 .todo-form {
     width: 100%;
+}
+
+/* NOTE */
+
+.note {
+    border: 1px solid;
+    border-color: #5f6368;
+    background-color: #3A3B3E;
+    cursor: pointer;
+    padding: 0.25rem 1rem 0.75rem 1rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    color: #e8eaed;
+    transition: ease-in-out 0.2s;
+    opacity: 1;
+    width: 15rem;
+    margin: 0.75rem;
+    transition-property: opacity box-shadow, transform;
+    border-radius: 0.5rem;
+}
+
+.note:hover {
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(255, 255, 255, 0.5);
+    -moz-box-shadow: 0px 0px 7px 0px rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 0px 7px 0px rgba(255, 255, 255, 0.5);
+}
+
+.keep-content .show-note {
+    opacity: 1;
+}
+
+.notes-sector-header {
+
+    text-transform: uppercase;
+    color: #9aa0a6;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+    margin-inline-start: 2rem;
+    letter-spacing: .07272727em;
+}
+
+.pinned-span, .unpinned-span {
+
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.note .title {
+    margin: 0.75rem auto;
+}
+
+.notes-section {
+    width: 100%;
+}
+
+.active-note {
+
+    position: absolute;
+    float: left;
+    left: 50%;
+    top: 50%;
+    width: 30rem;
+    font-size: 2rem;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5);
+    z-index: 2;
+    opacity: 0;
+    padding: 2rem;
+}
+
+.active-note:hover {
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5);
+}
+
+.active-note input, .active-note textarea{
+    font-size: 1.5rem;
+}
+
+.note-img {
+
+    max-width: 30rem;
+}
+
+.note-img img {
+    width: inherit;
+}
+
+.hidden-img {
+    opacity: 0;
+}
+
+.note-todo li {
+    list-style: unset;
 }

@@ -1,3 +1,5 @@
+import utilService from '../../services/utilService.js';
+
 export class NoteAdd extends React.Component {
 
     constructor() {
@@ -8,7 +10,6 @@ export class NoteAdd extends React.Component {
     state = {
         isOpen: false,
         type: 'NoteTxt',
-        addNoteClass: '',
         addToolsClass: '',
         note: {
             title: '',
@@ -19,7 +20,7 @@ export class NoteAdd extends React.Component {
             videoUrl: '',
             style: {},
             audioUrl: '',
-            map: {},
+            map: '',
         },
     };
 
@@ -34,9 +35,6 @@ export class NoteAdd extends React.Component {
         event.preventDefault();
 
         var note = {};
-        var created = Date.now();
-        note.isPinned = false;
-        note.created = created;
 
         var stateNote = this.state.note;
 
@@ -72,7 +70,7 @@ export class NoteAdd extends React.Component {
                         label: stateNote.label,
                         todos: stateNote.todos,
                     },
-                    
+
                 }
 
                 break;
@@ -87,7 +85,7 @@ export class NoteAdd extends React.Component {
                     },
                 }
                 break;
-                
+
             case 'NoteAudio':
 
                 note = {
@@ -111,11 +109,15 @@ export class NoteAdd extends React.Component {
                 break;
 
         }
-        
+        note.id = utilService.makeId();
+        note.isPinned = false;
+        note.created = Date.now();
+
         this.props.addNote(note);
     }
 
     onChangeNote = ({ target }) => {
+        // console.log(this.state.note);
 
         const field = target.name
         const value = target.value;
@@ -124,34 +126,45 @@ export class NoteAdd extends React.Component {
     }
 
     onUserClick = () => {
+        // console.log(this.state.isOpen);
         if (this.state.isOpen) return;
 
-        let addNoteClass = (this.state.addNoteClass === 'column') ? '' : 'column';
         let addToolsClass = (this.state.addToolsClass === 'open-tools') ? '' : 'open-tools';
 
         this.setState(({ isOpen }) => ({
             isOpen: !isOpen,
-            addNoteClass: addNoteClass,
-            addToolsClass: addToolsClass,
+            addToolsClass: addToolsClass
         }));
     }
 
     onTypeChange = (type) => {
 
-        this.setState({ type });
+        this.setState({ type: type });
     }
 
     render() {
 
-        const { isOpen, addNoteClass, addToolsClass, type } = this.state;
+        const { isOpen, addToolsClass, type, note } = this.state;
+        const headerType = (type === 'NoteTodos') ? 'label' : 'title';
 
         return (
-            <section className={`add-note-section flex ${addNoteClass} align-center space-center`} onClick={() => this.onUserClick()}>
-                <form onSubmit={this.onAddNote} className={`todo-form flex ${addNoteClass} align-center space-center`}>
-                    {isOpen && <input type="text" name="title" placeholder="Title" onChange={this.onChangeNote} />}
-                    <textarea name="" id="" cols="1" rows={(isOpen) ? 3 : 1} placeholder="Take a note..."
-                        ref={this.firstInput} onChange={this.onChangeNote} name="txt"></textarea>
-
+            <section className={`add-note-section flex column align-center space-center`} onClick={() => this.onUserClick()}>
+                <form onSubmit={this.onAddNote} className={`todo-form flex column align-center space-center`}>
+                    {isOpen && <input type="text" name={headerType}
+                        placeholder={headerType[0].toUpperCase() + headerType.slice(1)} value={note.title} onChange={this.onChangeNote} />}
+                    {type === 'NoteTxt' &&
+                        <textarea name="" id="" cols="1" rows={(isOpen) ? 3 : 1} placeholder="Take a note..."
+                            ref={this.firstInput} value={note.txt} onChange={this.onChangeNote} name="txt"></textarea>}
+                    {type === 'NoteImg' &&
+                        <input type="text" name="imgUrl" placeholder="Image Url" onChange={this.onChangeNote} />}
+                    {type === 'NoteVideo' &&
+                        <input type="text" name="videoUrl" placeholder="Video Url" onChange={this.onChangeNote} />}
+                    {type === 'NoteAudio' &&
+                        <input type="text" name="audioUrl" placeholder="Audio Url" onChange={this.onChangeNote} />}
+                    {type === 'NoteMap' &&
+                        <input type="text" name="map" placeholder="map" onChange={this.onChangeNote} />}
+                    {type === 'NoteTodos' &&
+                        <input type="text" name="todos" placeholder="Todo" onChange={this.onChangeNote} />}
                     <div className={`add-note-tools flex align-center space-between ${addToolsClass}`}>
                         <button type="submit">Add</button>
                         <img src="../../assets/img/keep/text.png" className={(type === 'NoteTxt') ? 'active-tool' : ''} onClick={() => this.onTypeChange('NoteTxt')} />
