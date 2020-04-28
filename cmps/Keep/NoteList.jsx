@@ -8,7 +8,7 @@ import { NoteMap } from './NoteMap.jsx';
 export class NoteList extends React.Component {
 
     componentDidMount() {
-        console.log(this.props.notes);
+
 
     }
     componentDidUpdate() {
@@ -22,45 +22,47 @@ export class NoteList extends React.Component {
         var addClass = '';
         // console.log(this.props.notes);
         
-        if(this.props.noteInFocusId === note.id){
+        if(this.props.noteInFocusObj.noteId === note.id){
             addClass = 'active-note';
+        } else if (this.props.noteInFocusObj.noteNextId) {
+            if(this.props.noteInFocusObj.noteNextId === note.id) {
+                addClass = 'active-note-next';
+            }
         }
 
         if (note.type === 'NoteTxt') {
 
-            el = <NoteTxt note={note} key={note.created} toggleView={this.props.toggleView} addClass={addClass} />;
+            el = <NoteTxt note={note} key={note.created} toggleView={this.props.toggleView}
+             addClass={addClass} saveNote={this.props.saveNote} />;
         } else if (note.type === 'NoteImg') {
 
-            el = <NoteImg note={note} key={note.created} toggleView={this.props.toggleView} addClass={addClass}  />;
+            el = <NoteImg note={note} key={note.created} toggleView={this.props.toggleView}
+             addClass={addClass} saveNote={this.props.saveNote}  />;
         } else if (note.type === 'NoteTodos') {
 
-            el = <NoteTodos note={note} key={note.created} toggleView={this.props.toggleView} addClass={addClass}  />;
+            el = <NoteTodos note={note} key={note.created} toggleView={this.props.toggleView}
+             addClass={addClass} saveNote={this.props.saveNote}  />;
         } else if (note.type === 'NoteVideo') {
 
-            el = <NoteVideo note={note} key={note.created} toggleView={this.props.toggleView} addClass={addClass}  />;
+            el = <NoteVideo note={note} key={note.created} toggleView={this.props.toggleView}
+             addClass={addClass} saveNote={this.props.saveNote}  />;
         } else if (note.type === 'NoteAudio') {
 
-            el = <NoteAudio note={note} key={note.created} toggleView={this.props.toggleView} addClass={addClass}  />;
+            el = <NoteAudio note={note} key={note.created} toggleView={this.props.toggleView}
+             addClass={addClass} saveNote={this.props.saveNote}  />;
         } else if (note.type === 'NoteMap') {
 
-            el = <NoteMap note={note} key={note.created} toggleView={this.props.toggleView} addClass={addClass}  />;
+            el = <NoteMap note={note} key={note.created} toggleView={this.props.toggleView}
+             addClass={addClass} saveNote={this.props.saveNote}  />;
         }
 
-        console.log(el);
+        // console.log(el);
         return el;
     }
 
     render() {
 
-        var pinnedNotes = [];
-        var unpinnedNotes = [];
-
-        this.props.notes.forEach((note) => {
-            console.log(note);
-
-            if (note.isPinned) pinnedNotes.unshift(note);
-            else unpinnedNotes.unshift(note);
-        });
+        const {pinnedNotes, unpinnedNotes} = this.props;
 
         return (
             <section className="notes-section flex column align-center space-center">
@@ -72,7 +74,7 @@ export class NoteList extends React.Component {
                                 pinnedNotes.map(note => {
                                     let el = this.DynamicCmp(note);
                                     
-                                    console.log(el);
+                                    // console.log(el);
                                     return el;
                                 })
                             }
@@ -89,7 +91,7 @@ export class NoteList extends React.Component {
                                 unpinnedNotes.map(note => {
 
                                     let el = this.DynamicCmp(note);
-                                    console.log(el);
+                                    // console.log(el);
                                     return el;
                                 })
                             }

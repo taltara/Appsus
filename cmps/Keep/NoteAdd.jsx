@@ -20,7 +20,7 @@ export class NoteAdd extends React.Component {
             videoUrl: '',
             style: {},
             audioUrl: '',
-            map: '',
+            mapSearch: '',
         },
     };
 
@@ -70,7 +70,6 @@ export class NoteAdd extends React.Component {
                         label: stateNote.label,
                         todos: stateNote.todos,
                     },
-
                 }
 
                 break;
@@ -80,7 +79,7 @@ export class NoteAdd extends React.Component {
                 note = {
                     type: 'NoteVideo',
                     info: {
-                        label: stateNote.label,
+                        title: stateNote.title,
                         videoUrl: stateNote.videoUrl,
                     },
                 }
@@ -102,8 +101,8 @@ export class NoteAdd extends React.Component {
                 note = {
                     type: 'NoteMap',
                     info: {
-                        label: stateNote.label,
-                        map: {},
+                        title: stateNote.title,
+                        mapSearch: stateNote.mapSearch,
                     },
                 }
                 break;
@@ -122,7 +121,7 @@ export class NoteAdd extends React.Component {
         const field = target.name
         const value = target.value;
 
-        this.setState(prevState => ({ note: { ...prevState.note, [field]: value } }));
+        this.setState(prevState => ({ note: { ...prevState.note, [field]: value } }), console.log(this.state.note));
     }
 
     onUserClick = () => {
@@ -149,7 +148,7 @@ export class NoteAdd extends React.Component {
 
         return (
             <section className={`add-note-section flex column align-center space-center`} onClick={() => this.onUserClick()}>
-                <form onSubmit={this.onAddNote} className={`todo-form flex column align-center space-center`}>
+                <form onSubmit={this.onAddNote} className={`todo-form flex ${(isOpen) ? 'column' : ''} align-center space-center`}>
                     {isOpen && <input type="text" name={headerType}
                         placeholder={headerType[0].toUpperCase() + headerType.slice(1)} value={note.title} onChange={this.onChangeNote} />}
                     {type === 'NoteTxt' &&
@@ -158,17 +157,18 @@ export class NoteAdd extends React.Component {
                     {type === 'NoteImg' &&
                         <input type="text" name="imgUrl" placeholder="Image Url" onChange={this.onChangeNote} />}
                     {type === 'NoteVideo' &&
-                        <input type="text" name="videoUrl" placeholder="Video Url" onChange={this.onChangeNote} />}
+                        <input type="text" name="videoUrl" placeholder="Youtube Url" onChange={this.onChangeNote} />}
                     {type === 'NoteAudio' &&
                         <input type="text" name="audioUrl" placeholder="Audio Url" onChange={this.onChangeNote} />}
                     {type === 'NoteMap' &&
-                        <input type="text" name="map" placeholder="map" onChange={this.onChangeNote} />}
+                        <input type="text" name="mapSearch" placeholder="Search Location" onChange={this.onChangeNote} />}
                     {type === 'NoteTodos' &&
                         <input type="text" name="todos" placeholder="Todo" onChange={this.onChangeNote} />}
                     <div className={`add-note-tools flex align-center space-between ${addToolsClass}`}>
                         <button type="submit">Add</button>
                         <img src="../../assets/img/keep/text.png" className={(type === 'NoteTxt') ? 'active-tool' : ''} onClick={() => this.onTypeChange('NoteTxt')} />
                         <img src="../../assets/img/keep/photo.png" className={(type === 'NoteImg') ? 'active-tool' : ''} onClick={() => this.onTypeChange('NoteImg')} />
+                        <img src="../../assets/img/keep/map.png" className={(type === 'NoteMap') ? 'active-tool' : ''} onClick={() => this.onTypeChange('NoteMap')} />
                         <img src="../../assets/img/keep/video.png" className={(type === 'NoteVideo') ? 'active-tool' : ''} onClick={() => this.onTypeChange('NoteVideo')} />
                         <img src="../../assets/img/keep/audio.png" className={(type === 'NoteAudio') ? 'active-tool' : ''} onClick={() => this.onTypeChange('NoteAudio')} />
                         <img src="../../assets/img/keep/todo.png" className={(type === 'NoteTodos') ? 'active-tool' : ''} onClick={() => this.onTypeChange('NoteTodos')} />

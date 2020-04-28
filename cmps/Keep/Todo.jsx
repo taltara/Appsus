@@ -17,7 +17,7 @@ export class Todo extends React.Component {
     }
 
     handleChange = ({ target }) => {
-        console.log(target);
+        // console.log(target);
         const field = target.name
         const value = target.value;
 
@@ -28,7 +28,7 @@ export class Todo extends React.Component {
 
     render() {
         const { todo } = this.props;
-        console.log(todo);
+        // console.log(todo);
         return (
             <li className="todo"><input type="text" value={todo.txt} onChange={this.handleChange}/></li>
         )
