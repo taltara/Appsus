@@ -7,27 +7,45 @@ export class NoteApp extends React.Component {
 
     constructor() {
         super();
-
+        this.pinnedNotes;
+        this.unpinnedNotes;
     }
 
     state = {
         notes: [],
         searchBy: '',
         noteInFocus: false,
-        noteInFocusId: null
+        noteInFocusObj: {}
     };
 
     componentDidMount() {
-        this.loadNotes();
+        this.initNotes();
     }
+
+    initNotes = () => {
+
+        keepService.populateNotes()
+            .then(() => {
+                this.loadNotes();
+            })
+    }
+
     componentDidUpdate() {
 
+    }
+
+    saveNote = (note) => {
+        console.log(note);
+        keepService.save(note)
+            .then(() => {
+                this.loadNotes();
+            });
     }
 
     addNote = (note) => {
 
         console.log(note);
-        var notes = [ ...this.state.notes, note];
+        var notes = [...this.state.notes, note];
         console.log(notes);
         this.setState({ notes: notes });
     }
@@ -47,21 +65,61 @@ export class NoteApp extends React.Component {
         this.setState({ searchBy: searchBy }, () => this.loadNotes());
     }
 
-    toggleView = (noteId) => {
+    toggleView = (noteId, isPinned) => {
         console.log(noteId);
-        if(this.state.noteInFocusId === noteId) return;
-        else if(this.state.noteInFocusId) noteId = null;
+        let noteInFocusAndNext = {};
+        let noteNextId = null;
+
+        if (this.state.noteInFocusObj.noteId === noteId) return;
+        else if (this.state.noteInFocusObj.noteId) noteId = null;
+        else {
+            let noteIdx;
+
+            if (isPinned) {
+
+                noteIdx = this.pinnedNotes.findIndex(note => {
+                    return note.id === noteId;
+                });
+
+                if (noteIdx >= 0 && noteIdx != this.pinnedNotes.length - 1) {
+                    noteNextId = this.pinnedNotes[noteIdx + 1].id;
+                }
+
+            } else {
+
+                noteIdx = this.unpinnedNotes.findIndex(note => {
+                    return note.id === noteId;
+                });
+
+                if (noteIdx >= 0 && noteIdx != this.unpinnedNotes.length - 1) {
+                    noteNextId = this.unpinnedNotes[noteIdx + 1].id;
+                }
+            }
+        }
+        noteInFocusAndNext = { noteNextId, noteId };
 
         this.setState(({ noteInFocus }) => ({
             noteInFocus: !noteInFocus,
-            noteInFocusId: noteId
+            noteInFocusObj: noteInFocusAndNext
         }));
     }
 
 
     render() {
 
-        const { notes, noteInFocus, noteInFocusId } = this.state;
+        const { notes, noteInFocus, noteInFocusObj } = this.state;
+
+        var pinnedNotes = [];
+        var unpinnedNotes = [];
+
+        notes.forEach((note) => {
+            // console.log(note);
+
+            if (note.isPinned) pinnedNotes.unshift(note);
+            else unpinnedNotes.unshift(note);
+        });
+        this.pinnedNotes = pinnedNotes;
+        this.unpinnedNotes = unpinnedNotes;
 
         return (
             <main className={`keep-main ${(noteInFocus) ? 'menu-open' : ''}`}>
@@ -71,7 +129,8 @@ export class NoteApp extends React.Component {
                         <NoteSearch onSearch={this.onSearch} />
                         <NoteAdd addNote={this.addNote} />
                     </section>
-                    {notes.length && <NoteList notes={notes} toggleView={this.toggleView} noteInFocusId={noteInFocusId} />}
+                    {notes.length && <NoteList pinnedNotes={pinnedNotes} unpinnedNotes={unpinnedNotes}
+                        toggleView={this.toggleView} noteInFocusObj={noteInFocusObj} saveNote={this.saveNote} />}
                 </div>
 
             </main>
