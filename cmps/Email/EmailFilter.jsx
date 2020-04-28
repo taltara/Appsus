@@ -8,7 +8,8 @@ export default class Filter extends React.Component {
         const field = target.name
         const value = (target.type === 'number') ? parseInt(target.value) : target.value
 
-        this.setState(prevState => ({ filter: { ...prevState.filter, [field]: value } }), () => {
+        this.setState(prevState => ({ filter: { ...prevState.filter, [field]: target.value } }), () => {
+            console.log('this.state.filter', this.state.filter)
             this.props.onSetFilter(this.state.filter)
         })
     }
@@ -17,6 +18,8 @@ export default class Filter extends React.Component {
         this.props.onSetFilter(this.state.filter)
     }
     render() {
+        console.log(this.state.filter);
+        
         const { title } = this.state.filter
         return (
             <section className="search-section flex align-center space-center">
@@ -40,4 +43,8 @@ export default class Filter extends React.Component {
     //     )
 
     // }
+
+
+
+    
 }

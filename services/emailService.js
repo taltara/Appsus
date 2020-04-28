@@ -10,35 +10,40 @@ export default {
     remove,
     getById,
     // add,
-    // emailIsRead,
+    emailIsRead,
     toggleIsImportant,
+    unReadEmails,
+    emailIsSelect,
+    removeAllEmailsSelected,
+    markAsReadForAllSelected
 }
 
 function _createEmails() {
     gEmails = storageService.load(EMAILS_KEY, [])
     if (!gEmails.length) {
-        gEmails.push(_createEmail(utilService.makeId(), 'tal', 'Wassap', 'Pick up!', false, 1551133930594, false))
-        gEmails.push(_createEmail(utilService.makeId(), 'meshi', 'hello girl', 'what do you like to watch on netflix??', false, 1551133930594, false))
-        gEmails.push(_createEmail(utilService.makeId(), 'jon', 'hello girl', 'long time no see!', false, 1551133930594, false))
+        gEmails.push(_createEmail(utilService.makeId(), 'tal', 'Wassap', 'lorem-ipsum is a JavaScript module for generating passages of lorem ipsum text. Lorem ipsum text is commonly used as placeholder text in publishing, graphic design, and web development.', 1551133930594))
+        gEmails.push(_createEmail(utilService.makeId(), 'meshi', 'hello girl', 'lorem-ipsum is a JavaScript module for generating passages of lorem ipsum text. Lorem ipsum text is commonly used as placeholder text in publishing, graphic design, and web development.', 1551133930594))
+        gEmails.push(_createEmail(utilService.makeId(), 'jon', 'hello girl', 'lorem-ipsum is a JavaScript module for generating passages of lorem ipsum text. Lorem ipsum text is commonly used as placeholder text in publishing, graphic design, and web development.', 1551133930594))
     }
     storageService.store(EMAILS_KEY, gEmails);
 }
 
-function _createEmail(id, sentBy, subject, body, isRead, sentAt, isImportant) {
+function _createEmail(id, sentBy, subject, body, sentAt) {
     return {
         id,
         sentBy,
         subject,
         body,
-        isRead,
         sentAt,
-        isImportant
+        isRead: false,
+        isImportant: false,
+        isSelect: false
     }
 }
 
 function query(currView, filterBy) {
-    var filteredEmails= storageService.load(EMAILS_KEY);
-    if(!filteredEmails) filteredEmails = gEmails.slice()
+    var filteredEmails = storageService.load(EMAILS_KEY);
+    if (!filteredEmails) filteredEmails = gEmails.slice()
     if (currView === 'Important') {
         filteredEmails = gEmails.filter(email => email.isImportant);
     }
@@ -72,7 +77,7 @@ function _getById(emailId) {
 function emailIsRead(emailId) {
     let email = _getById(emailId);
     email.isRead = true;
-    // storageService.store(EMAILS_KEY, gEmails);
+    storageService.store(EMAILS_KEY, gEmails);
 }
 
 function remove(emailId) {
@@ -89,6 +94,37 @@ function toggleIsImportant(id) {
     gEmails[emailIdx].isImportant = !gEmails[emailIdx].isImportant;
     storageService.store(EMAILS_KEY, gEmails);
     return Promise.resolve(gEmails[emailIdx]);
+}
+
+function unReadEmails() {
+    return gEmails.filter(email => !email.isRead)
+}
+
+function emailIsSelect(emailId) {
+    let email = _getById(emailId);
+    email.isSelect = !email.isSelect;
+    storageService.store(EMAILS_KEY, gEmails);
+}
+
+function getAllEmailsSelected() {
+    return gEmails.filter(email => email.isSelect)
+}
+
+function removeAllEmailsSelected() {
+    var emails = getAllEmailsSelected();
+    emails.forEach(email => {
+        remove(email.id)
+    });
+}
+
+function markAsReadForAllSelected(isRead){
+    var emails = getAllEmailsSelected();
+    emails.forEach(email=>{
+        email.isRead = isRead;
+    })
+    console.log('isOpen',gEmails);
+    
+    storageService.store(EMAILS_KEY, gEmails);
 }
 
 // function getAllImportantEmails() {

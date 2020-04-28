@@ -1,4 +1,6 @@
 import emailService from '../../services/emailService.js'
+import CreateEmail from './CreateEmail.jsx'
+import {eventBus} from '../../services/eventBusService.js'
 
 
 export class EmailDetails extends React.Component {
@@ -11,8 +13,6 @@ export class EmailDetails extends React.Component {
     }
 
     loadEmail() {
-        console.log('loadEmail props',this.props);
-        
         const id = this.props.match.params.emailId;
         emailService.getById(id)
             .then(email => {
@@ -54,24 +54,28 @@ export class EmailDetails extends React.Component {
         return `${date.getDate()}/${date.getMonth() + 1}`
     }
 
+    reply(email){
+        // console.log(email);
+        
+        eventBus.emit('create-email', email)
+    }
+
 
     render() {
         const { email } = this.state
         const loading = <p>Loading...</p>
-        if (email) console.log('when load email.isImportant', email.isImportant);
 
         return (
-            (!email) ? loading : <div className="email-details-container">
+            (!email) ? loading :
+             <div className="email-details-container">
                 <div className="top-buttons-container">
                     <section className="top-buttons">
-                        <button >
+                        <button onClick={()=>
+                           this.reply(email)
+                        }>
                             <i className="fas fa-reply"></i>
                         </button>
-                        <button className={(email.isImportant) ? 'fas fa-star' : 'far fa-star'} onClick={() => {
-                            this.onToggleStar();
-
-
-                        }}>
+                        <button className={(email.isImportant) ? 'fas fa-star' : 'far fa-star'} onClick={this.onToggleStar}>
                         </button>
                         <button onClick={this.removeEmail}>
                             <i className="fas fa-trash"></i>

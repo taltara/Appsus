@@ -11,6 +11,7 @@ import { About } from 'pages/About.jsx';
 import { NoteApp } from 'pages/Keep/NoteApp.jsx';
 import { EmailApp } from 'pages/Email/EmailApp.jsx';
 import { EmailDetails } from 'pages/Email/EmailDetails.jsx';
+import { CreateEmail } from './pages/Email/CreateEmail.jsx';
 
 // import { CSSTransition, TransitionGroup } from 'lib/react-transition-group.js';
 
@@ -20,6 +21,7 @@ export class App extends React.Component {
         return (
             <Router history={history}>
                 <NavBar></NavBar>
+                <CreateEmail></CreateEmail>
 
                     <Switch>
                         <Route component={BookDetails} path="/books/:bookName/:bookId" />
