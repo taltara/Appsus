@@ -4,18 +4,19 @@ import EmailNavBar from '../../cmps/Email/EmailNavBar.jsx'
 import EmailsFilter from '../../cmps/Email/EmailFilter.jsx'
 import SelectionFilter from '../../cmps/Email/SelectionFilter.jsx'
 import { EmailDetails } from './EmailDetails.jsx'
+import { CreateEmail } from './CreateEmail.jsx';
+
 const { Route, Switch } = ReactRouterDOM;
 
 function DynamicCmp(props) {
     switch (props.currView) {
         case 'Inbox':
         case 'Important':
+        case 'Sent':
             return <EmailList emails={props.emails}
                 updateCurrView={props.updateCurrView}
                 onSelectEmail={props.onSelectEmail}
                 onOpenEmail={props.onOpenEmail}></EmailList>
-        case 'Sent':
-            return <Sent {...props} />
         default:
             return '//...some default error view'
     }
@@ -26,15 +27,15 @@ export class EmailApp extends React.Component {
     state = {
         emails: null,
         currView: 'Inbox',
-        filterBy: null
+        filterBy: null,
+        selectedEmails: [/*{ids..}*/]
     };
 
     componentDidMount() {
-        // emailService._createEmails();
         this.loadEmails();
     }
 
-    loadEmails() {
+    loadEmails = () => {
         emailService.query(this.state.currView, this.state.filterBy)
             .then(emails => {
                 this.setState({ emails })
@@ -52,11 +53,20 @@ export class EmailApp extends React.Component {
     }
 
     updateCurrView = (currView) => {
-        console.log('currView', currView);
+        if (currView === 'Sent') {
+            this.setState({ currView, filterBy: { isSent: true } }, () => {
+                this.loadEmails()
+                console.log(this.state);
+                
+            });
+        }
+        if (currView === 'Important' || currView === 'Inbox') {
+            this.setState({ currView, filterBy: { isSent: false } }, () => {
+                this.loadEmails()
+                console.log(this.state);
 
-        this.setState({ currView }, () => {
-            this.loadEmails()
-        });
+            });
+        }
     }
 
     onSetFilter = (filterBy) => {
@@ -64,11 +74,19 @@ export class EmailApp extends React.Component {
     }
 
     onRemoveAllEmailsSelected = () => {
-        emailService.removeAllEmailsSelected();
-        this.loadEmails();
+
+        var prms = this.state.selectedEmails.map(id => {
+            return emailService.remove(id)
+        });
+        Promise.all(prms).then(() => {
+            this.setState({ selectedEmails: [] })
+            this.loadEmails();
+        })
+        // emailService.removeAllEmailsSelected();
     }
 
     onMarkAsReadForAllSelected = (isRead) => {
+
         emailService.markAsReadForAllSelected(isRead);
         this.loadEmails();
     }
@@ -82,6 +100,7 @@ export class EmailApp extends React.Component {
                     updateCurrView={this.updateCurrView}
                     unReadEmails={emailService.unReadEmails}
                 ></EmailNavBar>
+                <CreateEmail></CreateEmail>
                 <Switch>
                     <Route component={EmailDetails} path="/email/:emailId" />
                     <Route render={() => {

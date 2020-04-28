@@ -17,9 +17,7 @@ export default class Filter extends React.Component {
         ev.preventDefault()
         this.props.onSetFilter(this.state.filter)
     }
-    render() {
-        console.log(this.state.filter);
-        
+    render() {        
         const { title } = this.state.filter
         return (
             <section className="search-section flex align-center space-center">

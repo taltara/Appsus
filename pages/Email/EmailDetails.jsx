@@ -60,6 +60,8 @@ export class EmailDetails extends React.Component {
         eventBus.emit('create-email', email)
     }
 
+   
+
 
     render() {
         const { email } = this.state

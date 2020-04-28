@@ -16,7 +16,6 @@ export default class SelectionFilter extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log(this.props);
     }
 
     checkClassName() {

@@ -1,5 +1,6 @@
-// const { NavLink } = ReactRouterDOM
 const { NavLink } = ReactRouterDOM
+import {eventBus} from '../../services/eventBusService.js'
+
 
 
 export default class EmailNavBar extends React.Component {
@@ -16,6 +17,9 @@ export default class EmailNavBar extends React.Component {
     render() {
         return (<aside className="email-nav-container" >
             <ul className="email-nav-links clean-list flex column">
+                <button className="btn-add-email" onClick={()=>{
+                    eventBus.emit('create-email')
+                }}>New Email</button>
                 <li className={`${this.checkClassActive('Inbox')} email-nav-link`} onClick={() => {
                     this.props.updateCurrView('Inbox');
                     this.setState({ currView: 'Inbox' });

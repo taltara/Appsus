@@ -69,7 +69,7 @@ body {
 
 table{
     font-family: Arial, Helvetica, sans-serif;
-    
+    width: 100%;
 }
 
 .emails-container{
@@ -151,7 +151,6 @@ td{
 .email-nav-links{
     padding: 0;
     margin: 0;
-   
 }
 
 .email-nav-link{
@@ -172,6 +171,24 @@ td{
 .email-nav-link-active{
     background-color: white;
     border-radius: 10px;
+}
+
+.btn-add-email{
+    background: #4e4a4a;
+    border-radius: 10px;
+    /* width: 20rem; */
+    height: 5rem;
+    cursor: pointer;
+    border: 0;
+    font-size: 1.5rem;
+    margin: 10px;
+    margin-right: 25px;
+    color: white;
+    outline: none;
+    /* text-align: left; */
+    font-family: gilam, serif;
+    font-size: 2rem;
+    font-weight: 200;
 }
 
 /*********************** modal-compose ****************/
@@ -254,7 +271,18 @@ td{
     outline: none;
 }
 
+/*************************** modal-msg *******************************/
 
+.msg-email-container{
+    bottom: 35px;
+    position: fixed;
+    z-index: 999;
+    left: 20px;
+    border-style: solid;
+    padding: 20px 60px;
+    border-radius: 10px;
+    font-size: 2rem;
+}
 
 
 .btn-select{
