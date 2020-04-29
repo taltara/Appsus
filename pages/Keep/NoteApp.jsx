@@ -94,12 +94,12 @@ export class NoteApp extends React.Component {
     }
 
     loadNotes() {
-        console.log(this.state.searchBy);
+        
         let searchBy = (this.state.searchBy === '') ? null : this.state.searchBy;
         keepService.query(searchBy, this.filterByLabel)
             .then(notes => {
-                console.log(notes);
-                this.setState({ notes: notes }, console.log(this.state.notes));
+            
+                this.setState({ notes: notes });
             });
     }
 
@@ -176,7 +176,6 @@ export class NoteApp extends React.Component {
         });
         this.pinnedNotes = pinnedNotes;
         this.unpinnedNotes = unpinnedNotes;
-        console.log(this.notesLabels);
 
         return (
             <main className={`keep-main ${(noteInFocus) ? 'menu-open' : ''}`}>

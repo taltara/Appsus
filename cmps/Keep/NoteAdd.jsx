@@ -29,11 +29,11 @@ export class NoteAdd extends React.Component {
 
     }
     componentDidUpdate() {
-        console.log('update');
+        // console.log('update');
     }
 
     componentWillUnmount() {
-        console.log('unmount');
+        // console.log('unmount');
     }
 
     onAddNote = (event) => {
@@ -144,7 +144,7 @@ export class NoteAdd extends React.Component {
         const field = target.name
         const value = target.value;
 
-        this.setState(prevState => ({ note: { ...prevState.note, [field]: value } }), console.log(this.state.note));
+        this.setState(prevState => ({ note: { ...prevState.note, [field]: value } }));
     }
 
     onChangeTodos = ({ target }) => {
@@ -162,7 +162,7 @@ export class NoteAdd extends React.Component {
             todos.push({ txt: value, dontAt: null });
         }
 
-        this.setState(prevState => ({ note: { ...prevState.note, todos: todos } }), console.log(this.state.note));
+        this.setState(prevState => ({ note: { ...prevState.note, todos: todos } }));
     }
 
     onAddTodo = () => {

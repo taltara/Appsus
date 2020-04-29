@@ -13,7 +13,7 @@ export class Todo extends React.Component {
     };
 
     componentDidMount() {
-        console.log(this.props.todo);
+        
         this.setState({
             doneAt: this.props.todo.doneAt,
             txt: this.props.todo.txt,
