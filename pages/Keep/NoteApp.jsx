@@ -188,8 +188,8 @@ export class NoteApp extends React.Component {
                         <NoteSearch onSearch={this.onSearch} />
                         <NoteAdd addNote={this.addNote} />
                     </section>
-                    {notes.length && <NoteList pinnedNotes={pinnedNotes} unpinnedNotes={unpinnedNotes} deleteNote={this.deleteNote}
-                        toggleView={this.toggleView} noteInFocusObj={noteInFocusObj} saveNote={this.saveNote} />}
+                    {(notes.length) ? <NoteList pinnedNotes={pinnedNotes} unpinnedNotes={unpinnedNotes} deleteNote={this.deleteNote}
+                        toggleView={this.toggleView} noteInFocusObj={noteInFocusObj} saveNote={this.saveNote} /> :  null }
                 </div>
 
             </main>
