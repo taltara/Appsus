@@ -16,19 +16,23 @@ export default {
     sendEmail
 }
 
+
 function _createEmails() {
     gEmails = storageService.load(EMAILS_KEY, [])
     if (!gEmails.length) {
-        gEmails.push(_createEmail('tal@gmail.com', 'Wassap', 'lorem-ipsum is a JavaScript module for generating passages of lorem ipsum text. Lorem ipsum text is commonly used as placeholder text in publishing, graphic design, and web development.'))
-        gEmails.push(_createEmail('meshi@gmail.com', 'hello girl', 'lorem-ipsum is a JavaScript module for generating passages of lorem ipsum text. Lorem ipsum text is commonly used as placeholder text in publishing, graphic design, and web development.'))
+        gEmails.push(_createEmail('tal@gmail.com', 'Wassap',  'lorem-ipsum is a JavaScript module for generating passages of lorem ipsum text. Lorem ipsum text is commonly used as placeholder text in publishing, graphic design, and web development.', 'assets/img/email-img/cellcom.png',))
+        gEmails.push(_createEmail('meshi@gmail.com', 'hello girl', 'lorem-ipsum is a JavaScript module for generating passages of lorem ipsum text. Lorem ipsum text is commonly used as placeholder text in publishing, graphic design, and web development.','assets/img/email-img/corona.png'))
         gEmails.push(_createEmail('jon@gmail.com', 'hello girl', 'lorem-ipsum is a JavaScript module for generating passages of lorem ipsum text. Lorem ipsum text is commonly used as placeholder text in publishing, graphic design, and web development.'))
+        gEmails.push(_createEmail('jon@gmail.com', 'hello girl',  'lorem-ipsum is a JavaScript module for generating passages of lorem ipsum text. Lorem ipsum text is commonly used as placeholder text in publishing, graphic design, and web development.','assets/img/email-img/maeylis.png'))
+        gEmails.push(_createEmail('jon@gmail.com', 'hello girl', 'lorem-ipsum is a JavaScript module for generating passages of lorem ipsum text. Lorem ipsum text is commonly used as placeholder text in publishing, graphic design, and web development.', 'assets/img/email-img/udacity.png'))
     }
     storageService.store(EMAILS_KEY, gEmails);
 }
 
-function _createEmail(sentBy, subject, body, isSent = false) {
+function _createEmail(sentBy, subject, body, url = null, isSent = false) {
     return {
         id: utilService.makeId(),
+        url,
         sentBy,
         subject,
         body,
@@ -117,7 +121,7 @@ function emailIsRead(emailId, isRead) {
 
 function sendEmail(email) {
     console.log(email);
-    
+
     gEmails.push(_createEmail(email.to, email.subject, email.body, true));
     storageService.store(EMAILS_KEY, gEmails);
 }
