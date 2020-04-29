@@ -51,6 +51,13 @@ function query(searchBy, labelFilter = null) {
             return note.toDelete;
         });
         deleted = true;
+    } else if (Array.isArray(labelFilter) && labelFilter[0] === 'isArchived') {
+
+        currNotes = gNotes.filter(note => {
+
+            return note.isArchived;
+        });
+        deleted = true;
     }
 
 
@@ -58,7 +65,7 @@ function query(searchBy, labelFilter = null) {
 
         currNotes = currNotes.filter(note => {
 
-            if (note.toDelete && !deleted) return false;
+            if (note.toDelete && !deleted || note.isArchived && !deleted) return false;
             else if (note.type === NOTETXT) {
 
                 return (note.info.txt.toLowerCase()).includes(searchBy) ||
@@ -100,7 +107,7 @@ function query(searchBy, labelFilter = null) {
         if(!deleted) {
 
             currNotes = currNotes.filter(note => {
-                return !note.toDelete;
+                return !note.toDelete && !note.isArchived;
             })
 
         }
@@ -171,7 +178,8 @@ var noteDb = [
             'work',
             'important'
         ],
-        toDelete: true
+        toDelete: true,
+        isArchived: false,
     },
     {
         type: "NoteTxt",
@@ -186,7 +194,8 @@ var noteDb = [
             'home',
             'important'
         ],
-        toDelete: false
+        toDelete: false,
+        isArchived: false,
     },
     {
         type: "NoteTxt",
@@ -200,7 +209,8 @@ var noteDb = [
         labels: [
             'game night',
         ],
-        toDelete: false
+        toDelete: false,
+        isArchived: false,
     },
     {
         type: "NoteImg",
@@ -218,7 +228,8 @@ var noteDb = [
             'secret',
             'important'
         ],
-        toDelete: false
+        toDelete: false,
+        isArchived: true,
     },
     {
         type: "NoteTodos",
@@ -239,7 +250,8 @@ var noteDb = [
             'game night',
             'the sopranos'
         ],
-        toDelete: false
+        toDelete: false,
+        isArchived: false,
     },
     {
         type: "NoteVideo",
@@ -253,7 +265,8 @@ var noteDb = [
         labels: [
 
         ],
-        toDelete: false
+        toDelete: false,
+        isArchived: false,
     },
     {
         type: "NoteAudio",
@@ -268,7 +281,8 @@ var noteDb = [
             'work',
             'gaming'
         ],
-        toDelete: false
+        toDelete: false,
+        isArchived: false,
     },
     {
         type: "NoteMap",
@@ -283,6 +297,7 @@ var noteDb = [
 
             'important'
         ],
-        toDelete: false
+        toDelete: false,
+        isArchived: false,
     }
 ];

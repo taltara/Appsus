@@ -209,14 +209,28 @@ body {
 
 }
 
-.note-tools .delete-note {
-
+.note-tools .delete-note, .note-tools .archive-note {
     width: 1.5rem;
 
 }
 
+.note-tools .archive-note:hover {
+    background-color: grey;
+}
+
 .note-tools .delete-note:hover {
     background-color: red;
+}
+
+.edit-tools-span {
+
+    width: 3rem;
+}
+
+.notes-section .note-todo .edit-tools-span {
+
+    width: 4rem;
+    margin-left: -0.5rem;
 }
 
 .note-todo {
@@ -361,6 +375,11 @@ audio {
 }
 
 .notes-section .note .note-tools .show-tool {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.show-tool {
     opacity: 1;
     pointer-events: all;
 }

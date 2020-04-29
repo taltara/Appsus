@@ -20,6 +20,7 @@ export class NoteVideo extends React.Component {
         labels: [],
         style: { backgroundColor: "#3A3B3E" },
         toDelete: false,
+        isArchived: false,
     };
 
     youtube_parser(url) {
@@ -42,6 +43,7 @@ export class NoteVideo extends React.Component {
             videoUrl: this.getYoutubeVideoUrl(),
             isPinned: this.props.note.isPinned,
             toDelete: this.props.note.toDelete,
+            isArchived: this.props.note.isArchived,
             labels: this.props.note.labels
         });
     }
@@ -76,11 +78,18 @@ export class NoteVideo extends React.Component {
             note.info.videoUrl = this.state.videoUrl;
             note.style = this.state.style;
             note.toDelete = this.state.toDelete;
+            note.isArchived = this.state.isArchived;
             note.labels = this.state.labels;
             this.props.saveNote(note);
             this.setState({ saving: false });
             // this.state.saving = false;
         }, delay);
+    }
+
+    onArchiveNote = () => {
+        this.avoidClickPropagation();
+        console.log('here');
+        this.handleTools('archived');
     }
 
     onRemoveNote = () => {
@@ -136,6 +145,16 @@ export class NoteVideo extends React.Component {
 
             this.transition = true;
             this.setState({ toDelete: true }, () => {
+                console.log(this.state);
+                this.onSaveNote(0)
+            });
+            this.transitionTimeout = setTimeout(() => {
+                this.transition = false;
+            }, 200);
+        } else if (action === 'archived') {
+
+            this.transition = true;
+            this.setState(({ isArchived }) => ({ isArchived: !isArchived }), () => {
                 console.log(this.state);
                 this.onSaveNote(0)
             });
@@ -212,7 +231,7 @@ export class NoteVideo extends React.Component {
                 <span className="iframe-span flex align-center space-center">
                     <iframe src={videoUrl}></iframe>
                 </span>
-                <NoteTools hovering={hovering} updateFromTools={this.updateFromTools} 
+                <NoteTools hovering={hovering} updateFromTools={this.updateFromTools} onArchiveNote={this.onArchiveNote}
                 avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} />
             </div>
         )

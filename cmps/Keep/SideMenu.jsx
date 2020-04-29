@@ -25,7 +25,8 @@ export class SideMenu extends React.Component {
         this.setState({ activeTab: idx }, () => {
             let labelValue;
             if(!idx) labelValue = [];
-            else if (idx === -1) labelValue = { deleted: true };
+            else if (idx === -1) labelValue = { archived: true };
+            else if (idx === -2) labelValue = { deleted: true };
             else labelValue = this.labels[idx - 1][0];
  
             this.props.onSearch('', labelValue);
@@ -77,6 +78,8 @@ export class SideMenu extends React.Component {
                     }
                     </span>
                     <span onClick={() => this.onLabelChange(-1)} className={`label-span main-label flex align-center ${(activeTab === -1) ? 'active-navbar' : ''}`}>
+                        <li>Archived</li><img className="notes-menu-archived" src="../../assets/img/Keep/archive.png" alt="" /></span>
+                    <span onClick={() => this.onLabelChange(-2)} className={`label-span main-label flex align-center ${(activeTab === -2) ? 'active-navbar' : ''}`}>
                         <li>Deleted</li><img className="notes-menu-deleted" src="../../assets/img/Keep/trash.png" alt="" /></span>
                 </ul>
 

@@ -20,6 +20,7 @@ export class NoteTxt extends React.Component {
         style: { backgroundColor: "#3A3B3E" },
         labels: [],
         toDelete: false,
+        isArchived: false,
     };
 
     componentDidMount() {
@@ -30,6 +31,7 @@ export class NoteTxt extends React.Component {
             isPinned: this.props.note.isPinned,
             style: this.props.note.style,
             toDelete: this.props.note.toDelete,
+            isArchived: this.props.note.isArchived,
             labels: this.props.note.labels
         });
     }
@@ -64,6 +66,7 @@ export class NoteTxt extends React.Component {
             note.info.txt = this.state.txt;
             note.style = this.state.style
             note.toDelete = this.state.toDelete;
+            note.isArchived = this.state.isArchived;
             note.labels = this.state.labels;
             this.props.saveNote(note);
             this.setState({ saving: false });
@@ -115,6 +118,16 @@ export class NoteTxt extends React.Component {
 
             this.transition = true;
             this.setState({ toDelete: true }, () => {
+                console.log(this.state);
+                this.onSaveNote(0)
+            });
+            this.transitionTimeout = setTimeout(() => {
+                this.transition = false;
+            }, 200);
+        } else if (action === 'archived') {
+
+            this.transition = true;
+            this.setState(({ isArchived }) => ({ isArchived: !isArchived }), () => {
                 console.log(this.state);
                 this.onSaveNote(0)
             });
@@ -179,6 +192,12 @@ export class NoteTxt extends React.Component {
 
     }
 
+    onArchiveNote = () => {
+        this.avoidClickPropagation();
+        console.log('here');
+        this.handleTools('archived');
+    }
+
     onRemoveNote = () => {
         this.avoidClickPropagation();
         if (this.state.toDelete) {
@@ -203,7 +222,7 @@ export class NoteTxt extends React.Component {
                 </span>
                 <textarea name="" cols="1" rows="5" placeholder="Take a note..." onChange={this.handleChange}
                     name="txt" value={txt} onClick={this.avoidClickPropagation} placeholder="Enter Note"></textarea>
-                <NoteTools hovering={hovering} updateFromTools={this.updateFromTools}
+                <NoteTools hovering={hovering} updateFromTools={this.updateFromTools} onArchiveNote={this.onArchiveNote}
                     avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} />
             </div>
         )

@@ -107,6 +107,7 @@ export class NoteApp extends React.Component {
         console.log(label, this.filterByLabel);
 
         if(label.deleted) this.filterByLabel = ['toDelete'];
+        else if(label.archived) this.filterByLabel = ['isArchived'];
         else if (label) this.filterByLabel = label;
         this.setState({ searchBy: searchBy }, () => this.loadNotes());
     }
@@ -180,7 +181,7 @@ export class NoteApp extends React.Component {
         return (
             <main className={`keep-main ${(noteInFocus) ? 'menu-open' : ''}`}>
                 <UserMsg savedNote={true} type={'savedNote'}/>
-                
+
                 <SideMenu labels={this.notesLabels} onSearch={this.onSearch} />
                 <section className="screen" onClick={this.toggleView}></section>
                 <div className="keep-content flex column align-center space-center">

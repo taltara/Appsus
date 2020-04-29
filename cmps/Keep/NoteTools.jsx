@@ -66,14 +66,19 @@ export class NoteTools extends React.Component {
 
     render() {
         const { backgroundColor } = this.state.style;
-        const { hovering, onRemoveNote, avoidClickPropagation, updateLabels } = this.props;
+        const { hovering, onRemoveNote, onArchiveNote, avoidClickPropagation } = this.props;
         const { inFocus, label } = this.state;
 
         const addLabelClass = (inFocus) ? 'label-section-focus' : 'label-section-unfocus';
         return (
             <footer className="note-tools flex align-center space-between">
+                <span className="edit-tools-span flex align-center space-center">
                 <img src="../../assets/img/keep/todo-remove.png" onClick={onRemoveNote}
                     className={`delete-note tool ${(hovering) ? 'show-tool' : ''}`} />
+                <img src="../../assets/img/keep/archive.png" onClick={onArchiveNote}
+                    className={`archive-note tool ${(hovering) ? 'show-tool' : ''}`} />
+
+                </span>
                 <input type="text" name="label" onBlur={this.onFocusToggle} onFocus={this.onFocusToggle} maxLength="30"
                     className={`label-input ${addLabelClass} ${(hovering) ? 'show-tool' : ''}`} 
                     placeholder="Add Label" value={label} onChange={this.handleChange} onKeyPress={this.addLabel}/>

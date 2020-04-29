@@ -20,6 +20,7 @@ export class NoteMap extends React.Component {
         labels: [],
         style: { backgroundColor: "#3A3B3E" },
         toDelete: false,
+        isArchived: false,
     };
 
     componentDidMount() {
@@ -33,6 +34,7 @@ export class NoteMap extends React.Component {
             imgUrl: this.props.note.info.searchValue,
             isPinned: this.props.note.isPinned,
             toDelete: this.props.note.toDelete,
+            isArchived: this.props.note.isArchived,
             labels: this.props.note.labels
         });
 
@@ -77,12 +79,19 @@ export class NoteMap extends React.Component {
             note.info.mapSearch = this.state.searchValue;
             note.style = this.state.style;
             note.toDelete = this.state.toDelete;
+            note.isArchived = this.state.isArchived;
             note.labels = this.state.labels;
 
             this.props.saveNote(note);
             this.setState({ saving: false });
             // this.state.saving = false;
         }, delay);
+    }
+
+    onArchiveNote = () => {
+        this.avoidClickPropagation();
+        console.log('here');
+        this.handleTools('archived');
     }
 
     onRemoveNote = () => {
@@ -163,6 +172,17 @@ export class NoteMap extends React.Component {
             this.transitionTimeout = setTimeout(() => {
                 this.transition = false;
             }, 200);
+
+        } else if (action === 'archived') {
+
+            this.transition = true;
+            this.setState(({ isArchived }) => ({ isArchived: !isArchived }), () => {
+                console.log(this.state);
+                this.onSaveNote(0)
+            });
+            this.transitionTimeout = setTimeout(() => {
+                this.transition = false;
+            }, 200);
         }
     }
 
@@ -173,7 +193,7 @@ export class NoteMap extends React.Component {
 
     onClick = () => {
         if (this.transition) return;
-        if(this.state.toDelete) {
+        if (this.state.toDelete) {
 
             this.setState({ toDelete: false }, () => {
 
@@ -189,9 +209,9 @@ export class NoteMap extends React.Component {
     updateFromTools = (update, type) => {
         console.log(update);
 
-        if(type === 'style') {
+        if (type === 'style') {
 
-            this.setState(({ style }) => ({ style: { ...style, ...update} }), () => {
+            this.setState(({ style }) => ({ style: { ...style, ...update } }), () => {
                 console.log(this.state.style);
                 this.onSaveNote(0);
             });
@@ -208,15 +228,15 @@ export class NoteMap extends React.Component {
     }
 
     avoidClickPropagation = () => {
-        
-        if(!this.transition) {
+
+        if (!this.transition) {
 
             this.transition = true;
             this.transitionTimeout = setTimeout(() => {
                 this.transition = false;
             }, 200);
         }
-        
+
     }
 
     render() {
@@ -226,15 +246,15 @@ export class NoteMap extends React.Component {
             <div className={`note note-map flex column align-center space-center ${addClass} ${opacityClass}`}
                 onClick={() => this.onClick()} onMouseEnter={this.onHover} onMouseLeave={this.onHover} style={style}>
                 <span className="note-header flex align-center space-center">
-                    <input type="text" name="title" className="title" defaultValue={title} 
-                    onChange={this.handleChange} placeholder="Title" />
+                    <input type="text" name="title" className="title" defaultValue={title}
+                        onChange={this.handleChange} placeholder="Title" />
                     <img src="../assets/img/keep/pin.png" className={`tool-pin tool ${(hovering) ? 'show-tool' : ''}`} onClick={() => this.handleTools('pin')} />
                 </span>
                 <span className="map-span">
                     <div className="map" ref={this.map}></div>
                 </span>
-                <NoteTools hovering={hovering} updateFromTools={this.updateFromTools} 
-                avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} />
+                <NoteTools hovering={hovering} updateFromTools={this.updateFromTools} onArchiveNote={this.onArchiveNote}
+                    avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} />
             </div>
         )
     }
