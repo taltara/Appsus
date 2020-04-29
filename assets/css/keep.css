@@ -225,6 +225,11 @@ body {
     width: 1.5rem;
 }
 
+.note .note-tools .archive-note {
+
+    border-radius: 0.5rem;
+}
+
 .note-tools .archive-note:hover {
     background-color: grey;
 }

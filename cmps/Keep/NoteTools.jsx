@@ -76,8 +76,8 @@ export class NoteTools extends React.Component {
             <span className="note-tools-span flex column align-center space-center">
                 <section className="labels-section flex align-center space-center">
                     {(labels.length) ?
-                        labels.map(label => {
-                            return <p>{`< ${label} >`}</p>;
+                        labels.map((label, i) => {
+                            return <p key={`${label}-${i}`}>{`< ${label} >`}</p>;
                         }) : null
                     }
                 </section>
