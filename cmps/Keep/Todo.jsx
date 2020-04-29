@@ -94,7 +94,7 @@ export class Todo extends React.Component {
                 <img className={`${(showDelete) ? 'todo-slide' : ''}`} src="../../assets/img/keep/todo-remove.png"
                     onClick={this.onTodoDelete} />
                 <img src="../../assets/img/keep/todo-done.png" onClick={this.onTodoDone} />
-                <input type="text" value={todo.txt} name="txt" onChange={this.handleChange}
+                <input type="text" value={todo.txt} name="txt" onChange={this.handleChange} placeholder={`To Do #${this.props.todoIdx + 1}`}
                     className={`${(doneAt) ? 'todo-done' : ''}`} onClick={avoidClickPropagation} /></li>
         )
     }

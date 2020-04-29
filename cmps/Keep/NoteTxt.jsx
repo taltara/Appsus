@@ -196,13 +196,13 @@ export class NoteTxt extends React.Component {
             <div className={`note note-txt flex column align-center space-center ${addClass} ${opacityClass}`}
                 onClick={() => this.onClick()} onMouseEnter={this.onHover} onMouseLeave={this.onHover} style={style}>
                 <span className="note-header flex align-center space-center">
-                    <input type="text" name="title" className="title" defaultValue={title}
-                        onChange={this.handleChange} onClick={this.avoidClickPropagation} />
+                    <input type="text" name="title" className="title" defaultValue={title} onChange={this.handleChange}
+                     onClick={this.avoidClickPropagation} placeholder="Title" />
                     <img src="../assets/img/keep/pin.png" className={`tool-pin tool ${(hovering) ? 'show-tool' : ''}`} onClick={() => this.handleTools('pin')} />
 
                 </span>
                 <textarea name="" cols="1" rows="5" placeholder="Take a note..." onChange={this.handleChange}
-                    name="txt" value={txt} onClick={this.avoidClickPropagation}></textarea>
+                    name="txt" value={txt} onClick={this.avoidClickPropagation} placeholder="Enter Note"></textarea>
                 <NoteTools hovering={hovering} updateFromTools={this.updateFromTools}
                     avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} />
             </div>

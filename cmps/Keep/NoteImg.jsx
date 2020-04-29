@@ -200,8 +200,8 @@ export class NoteImg extends React.Component {
             <div className={`note note-img flex column align-center space-center ${hiddenClass} ${addClass} ${opacityClass}`}
                 style={style} onClick={() => this.onClick()} onMouseEnter={this.onHover} onMouseLeave={this.onHover}>
                 <span className="note-header flex align-center space-center">
-                    <input type="text" name="title" className="title" defaultValue={title} onChange={this.handleChange}
-                    onClick={this.avoidClickPropagation} />
+                    <input type="text" name="title" className="title" defaultValue={title} 
+                    onChange={this.handleChange} onClick={this.avoidClickPropagation} placeholder="Title" />
                     <img src="../assets/img/keep/pin.png" className={`tool-pin tool ${(hovering) ? 'show-tool' : ''}`} 
                     onClick={() => this.handleTools('pin')} />
 

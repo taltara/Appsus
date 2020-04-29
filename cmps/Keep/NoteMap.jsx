@@ -226,7 +226,8 @@ export class NoteMap extends React.Component {
             <div className={`note note-map flex column align-center space-center ${addClass} ${opacityClass}`}
                 onClick={() => this.onClick()} onMouseEnter={this.onHover} onMouseLeave={this.onHover} style={style}>
                 <span className="note-header flex align-center space-center">
-                    <input type="text" name="title" className="title" defaultValue={title} onChange={this.handleChange} />
+                    <input type="text" name="title" className="title" defaultValue={title} 
+                    onChange={this.handleChange} placeholder="Title" />
                     <img src="../assets/img/keep/pin.png" className={`tool-pin tool ${(hovering) ? 'show-tool' : ''}`} onClick={() => this.handleTools('pin')} />
                 </span>
                 <span className="map-span">

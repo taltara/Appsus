@@ -220,7 +220,8 @@ export class NoteTodos extends React.Component {
             <div className={`note note-todo flex column align-center space-center ${addClass} ${opacityClass}`}
                 onClick={() => this.onClick()} onMouseEnter={this.onHover} onMouseLeave={this.onHover} style={style}>
                 <span className="note-header flex align-center space-center">
-                    <input type="text" name="label" className="label" defaultValue={label} onChange={this.handleChange} />
+                    <input type="text" name="label" className="label" defaultValue={label} 
+                    onChange={this.handleChange} placeholder="Label" />
                     <img src="../assets/img/keep/pin.png" className={`tool-pin tool ${(hovering) ? 'show-tool' : ''}`}
                         onClick={() => this.handleTools('pin')} />
                 </span>
