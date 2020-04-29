@@ -48,7 +48,7 @@ body {
 }
 
 #root {
-    /* height: 100%; */
+    height: 100%;
 }
 
 p {
@@ -88,6 +88,7 @@ textarea {
     /* box-shadow: 0px 6px 5px 0px rgba(0, 0, 0, 0.75); */
     background-color: #485461;
     background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);
+    border-bottom: 1px inset transparent;
 }
 
 .navlink {
@@ -132,7 +133,7 @@ textarea {
     /* border: 2px solid rgba(0, 0, 0, 0.75); */
     margin: auto 0 auto 1rem;
     /* background-color: white; */
-    transition: ease-in-out 0.3s;
+    transition: ease-in-out 0.15s;
 }
 
 .main-logo:hover {
@@ -860,6 +861,10 @@ textarea {
 
 .space-evenly {
     justify-content: space-evenly;
+}
+
+.space-start {
+    justify-content: flex-start;
 }
 
 .wrap {

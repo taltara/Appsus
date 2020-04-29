@@ -1,9 +1,13 @@
+import { NoteTools } from 'NoteTools.jsx';
+
 export class NoteMap extends React.Component {
 
     constructor() {
         super();
         this.map = React.createRef();
         this.savingTimeout = null;
+        this.transitionTimeout = null;
+        this.transition = false;
     }
 
     state = {
@@ -11,7 +15,11 @@ export class NoteMap extends React.Component {
         searchValue: '',
         isPinned: '',
         opacityClass: '',
-        saving: false
+        saving: false,
+        hovering: false,
+        labels: [],
+        style: { backgroundColor: "#3A3B3E" },
+        toDelete: false,
     };
 
     componentDidMount() {
@@ -23,60 +31,82 @@ export class NoteMap extends React.Component {
         this.setState({
             title: this.props.note.info.title,
             imgUrl: this.props.note.info.searchValue,
-            isPinned: this.props.note.isPinned
+            isPinned: this.props.note.isPinned,
+            toDelete: this.props.note.toDelete,
+            labels: this.props.note.labels
         });
 
     }
 
     componentDidUpdate() {
 
-        if(this.state.opacityClass === '' && this.props.addClass != ''){
-            setTimeout(() => {
-                this.setState({ opacityClass: 'show-note'});
-                
-            }, 150);
-        } else if (this.state.opacityClass != '' && this.props.addClass === ''){
+        // if (this.state.opacityClass === '' && this.props.addClass != '') {
+        //     setTimeout(() => {
+        //         this.setState({ opacityClass: 'show-note' });
 
-            setTimeout(() => {
-                this.setState({ opacityClass: ''});
-                
-            }, 50);
-        }
+        //     }, 150);
+        // } else if (this.state.opacityClass != '' && this.props.addClass === '') {
+
+        //     setTimeout(() => {
+        //         this.setState({ opacityClass: '' });
+
+        //     }, 50);
+        // }
+    }
+
+    componentWillUnmount() {
+
+        clearTimeout(this.transitionTimeout);
     }
 
     getLocationData(searchValue) {
         fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${searchValue}&key=AIzaSyC5ayRzgQ3VwMWHFPVa8iRTCJhuEx3Onwo`)
             .then(res => { return res.json() })
-            .then(res => { return (res.results[0]) ? res.results[0].geometry.location : {lat: null, lng: null}})
+            .then(res => { return (res.results[0]) ? res.results[0].geometry.location : { lat: null, lng: null } })
             .then(res => { this.initMap(res.lat, res.lng) })
+            .catch(error => { console.log(error) })
     }
 
 
-    handleUpdateTimeout = () => {
+    handleUpdateTimeout = (delay = 2000) => {
 
         this.savingTimeout = setTimeout(() => {
             let note = { ...this.props.note };
             note.isPinned = this.state.isPinned;
             note.info.title = this.state.title;
             note.info.mapSearch = this.state.searchValue;
+            note.style = this.state.style;
+            note.toDelete = this.state.toDelete;
+            note.labels = this.state.labels;
 
             this.props.saveNote(note);
-            this.state.saving = false;
-        }, 2000);
+            this.setState({ saving: false });
+            // this.state.saving = false;
+        }, delay);
     }
 
-    onSaveNote = () => {
-
-        if(this.state.saving) {
-    
-            clearInterval(this.savingTimeout);
-            this.handleUpdateTimeout();
-            
+    onRemoveNote = () => {
+        this.avoidClickPropagation();
+        if (this.state.toDelete) {
+            this.props.deleteNote(this.props.note);
         } else {
-            
+            console.log('here');
+            this.handleTools('delete');
+        }
+    }
+
+    onSaveNote = (delay = 2000) => {
+
+        if (this.state.saving) {
+
+            clearInterval(this.savingTimeout);
+            this.handleUpdateTimeout(delay);
+
+        } else {
+
             this.setState({ saving: true }, () => {
 
-                this.handleUpdateTimeout();
+                this.handleUpdateTimeout(delay);
             })
         }
     }
@@ -107,18 +137,104 @@ export class NoteMap extends React.Component {
 
         var options = { center: centerOn, zoom: 15, gestureHandling: 'greedy' };
         var map = new google.maps.Map(this.map.current, options);
-        var marker = new google.maps.Marker({position: centerOn, map: map});
+        var marker = new google.maps.Marker({ position: centerOn, map: map });
+    }
+
+    handleTools = (action) => {
+
+        if (action === 'pin') {
+            console.log(this.state);
+            this.transition = true;
+            this.setState(({ isPinned }) => ({ isPinned: !isPinned }),
+                () => {
+                    this.onSaveNote(0);
+                });
+            this.transitionTimeout = setTimeout(() => {
+                this.transition = false;
+            }, 200);
+
+        } else if (action === 'delete') {
+
+            this.transition = true;
+            this.setState({ toDelete: true }, () => {
+                console.log(this.state);
+                this.onSaveNote(0)
+            });
+            this.transitionTimeout = setTimeout(() => {
+                this.transition = false;
+            }, 200);
+        }
+    }
+
+    onHover = () => {
+
+        this.setState(({ hovering }) => ({ hovering: !hovering }));
+    }
+
+    onClick = () => {
+        if (this.transition) return;
+        if(this.state.toDelete) {
+
+            this.setState({ toDelete: false }, () => {
+
+                this.onSaveNote(0);
+            });
+
+        } else {
+
+            this.props.toggleView(this.props.note.id, this.props.note.isPinned);
+        }
+    }
+
+    updateFromTools = (update, type) => {
+        console.log(update);
+
+        if(type === 'style') {
+
+            this.setState(({ style }) => ({ style: { ...style, ...update} }), () => {
+                console.log(this.state.style);
+                this.onSaveNote(0);
+            });
+        } else if (type === 'label') {
+
+            let labels = this.state.labels;
+            labels.push(update);
+            console.log(labels);
+            this.setState(({ labels: labels }), () => {
+                console.log(this.state.labels);
+                this.onSaveNote(0);
+            });
+        }
+    }
+
+    avoidClickPropagation = () => {
+        
+        if(!this.transition) {
+
+            this.transition = true;
+            this.transitionTimeout = setTimeout(() => {
+                this.transition = false;
+            }, 200);
+        }
+        
     }
 
     render() {
-        const { opacityClass, title } = this.state;
-        const { addClass, toggleView, note } = this.props;
+        const { opacityClass, title, hovering, style } = this.state;
+        const { addClass } = this.props;
         return (
-            <div className={`note note-map flex column align-center space-center ${addClass} ${opacityClass}`} onClick={() => toggleView(note.id, note.isPinned)}>
-                <input type="text" name="title" className="title" defaultValue={title} onChange={this.handleChange} />
+            <div className={`note note-map flex column align-center space-center ${addClass} ${opacityClass}`}
+                onClick={() => this.onClick()} onMouseEnter={this.onHover} onMouseLeave={this.onHover} style={style}>
+                <span className="note-header flex align-center space-center">
+                    <input type="text" name="title" className="title" defaultValue={title} 
+                    onChange={this.handleChange} placeholder="Title" />
+                    <img src="../assets/img/keep/pin.png" className={`tool-pin tool ${(hovering) ? 'show-tool' : ''}`} onClick={() => this.handleTools('pin')} />
+                </span>
                 <span className="map-span">
                     <div className="map" ref={this.map}></div>
                 </span>
+                <NoteTools hovering={hovering} updateFromTools={this.updateFromTools} 
+                avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} />
             </div>
         )
     }

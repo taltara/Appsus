@@ -15,7 +15,8 @@ export class NoteAdd extends React.Component {
             title: '',
             txt: '',
             label: '',
-            todos: [],
+            todos: [{ txt: '', dontAt: null }],
+            todosNum: 1,
             imgUrl: '',
             videoUrl: '',
             style: {},
@@ -28,12 +29,15 @@ export class NoteAdd extends React.Component {
 
     }
     componentDidUpdate() {
+        console.log('update');
+    }
 
+    componentWillUnmount() {
+        console.log('unmount');
     }
 
     onAddNote = (event) => {
         event.preventDefault();
-
         var note = {};
 
         var stateNote = this.state.note;
@@ -111,8 +115,27 @@ export class NoteAdd extends React.Component {
         note.id = utilService.makeId();
         note.isPinned = false;
         note.created = Date.now();
+        note.labels = [];
+        note.toDelete = false;
 
-        this.props.addNote(note);
+        this.setState({
+            isOpen: false,
+            type: 'NoteTxt',
+            note: {
+                title: '',
+                txt: '',
+                label: '',
+                todos: [{ txt: '', dontAt: null }],
+                imgUrl: '',
+                videoUrl: '',
+                style: {},
+                audioUrl: '',
+                mapSearch: '',
+            }
+        }, () => {
+
+            this.props.addNote(note);
+        })
     }
 
     onChangeNote = ({ target }) => {
@@ -122,6 +145,35 @@ export class NoteAdd extends React.Component {
         const value = target.value;
 
         this.setState(prevState => ({ note: { ...prevState.note, [field]: value } }), console.log(this.state.note));
+    }
+
+    onChangeTodos = ({ target }) => {
+
+        const todoIdx = +target.name[target.name.length - 1];
+        const value = target.value;
+
+        let todos = this.state.note.todos;
+
+        if (todoIdx <= todos.length - 1) {
+
+            todos[todoIdx].txt = value;
+        } else {
+
+            todos.push({ txt: value, dontAt: null });
+        }
+
+        this.setState(prevState => ({ note: { ...prevState.note, todos: todos } }), console.log(this.state.note));
+    }
+
+    onAddTodo = () => {
+        if(this.state.note.todos[this.state.note.todos.length - 1].txt === '') return;
+
+        let newTodo = { txt: '', doneAt: null };
+        let todos = this.state.note.todos;
+        let label = this.state.note.label;
+        todos.push(newTodo);
+
+        this.setState({ note: { label: label, todos: todos }});
     }
 
     onUserClick = () => {
@@ -150,7 +202,7 @@ export class NoteAdd extends React.Component {
             <section className={`add-note-section flex column align-center space-center`} onClick={() => this.onUserClick()}>
                 <form onSubmit={this.onAddNote} className={`todo-form flex ${(isOpen) ? 'column' : ''} align-center space-center`}>
                     {isOpen && <input type="text" name={headerType}
-                        placeholder={headerType[0].toUpperCase() + headerType.slice(1)} value={note.title} onChange={this.onChangeNote} />}
+                        placeholder={headerType[0].toUpperCase() + headerType.slice(1)} value={note[headerType]} onChange={this.onChangeNote} />}
                     {type === 'NoteTxt' &&
                         <textarea name="" id="" cols="1" rows={(isOpen) ? 3 : 1} placeholder="Take a note..."
                             ref={this.firstInput} value={note.txt} onChange={this.onChangeNote} name="txt"></textarea>}
@@ -163,15 +215,26 @@ export class NoteAdd extends React.Component {
                     {type === 'NoteMap' &&
                         <input type="text" name="mapSearch" placeholder="Search Location" onChange={this.onChangeNote} />}
                     {type === 'NoteTodos' &&
-                        <input type="text" name="todos" placeholder="Todo" onChange={this.onChangeNote} />}
+                        <span className="todos-span flex column align-center space-center">
+                            {
+                                note.todos.map((todo, i) => {
+
+                                    return <input type="text" name={`todo${i}`} placeholder={`Todo #${i + 1}`}
+                                    defaultValue={todo.txt} onChange={this.onChangeTodos} key={i}/>
+
+                                })
+                            }
+                            <img src="../../assets/img/keep/add.png" onClick={this.onAddTodo} className="add-input" />
+                        </span>
+                    }
                     <div className={`add-note-tools flex align-center space-between ${addToolsClass}`}>
                         <button type="submit">Add</button>
-                        <img src="../../assets/img/keep/text.png" className={(type === 'NoteTxt') ? 'active-tool' : ''} onClick={() => this.onTypeChange('NoteTxt')} />
-                        <img src="../../assets/img/keep/photo.png" className={(type === 'NoteImg') ? 'active-tool' : ''} onClick={() => this.onTypeChange('NoteImg')} />
-                        <img src="../../assets/img/keep/map.png" className={(type === 'NoteMap') ? 'active-tool' : ''} onClick={() => this.onTypeChange('NoteMap')} />
-                        <img src="../../assets/img/keep/video.png" className={(type === 'NoteVideo') ? 'active-tool' : ''} onClick={() => this.onTypeChange('NoteVideo')} />
-                        <img src="../../assets/img/keep/audio.png" className={(type === 'NoteAudio') ? 'active-tool' : ''} onClick={() => this.onTypeChange('NoteAudio')} />
-                        <img src="../../assets/img/keep/todo.png" className={(type === 'NoteTodos') ? 'active-tool' : ''} onClick={() => this.onTypeChange('NoteTodos')} />
+                        <img src="../../assets/img/keep/text.png" className={`tool-text ${(type === 'NoteTxt') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteTxt')} />
+                        <img src="../../assets/img/keep/photo.png" className={`tool-img ${(type === 'NoteImg') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteImg')} />
+                        <img src="../../assets/img/keep/map.png" className={`tool-map ${(type === 'NoteMap') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteMap')} />
+                        <img src="../../assets/img/keep/video.png" className={`tool-video ${(type === 'NoteVideo') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteVideo')} />
+                        <img src="../../assets/img/keep/audio.png" className={`tool-audio ${(type === 'NoteAudio') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteAudio')} />
+                        <img src="../../assets/img/keep/todo.png" className={`tool-todo ${(type === 'NoteTodos') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteTodos')} />
                     </div>
                 </form>
             </section>
