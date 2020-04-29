@@ -23,7 +23,6 @@ export class EmailDetails extends React.Component {
     onToggleStar = () => {
         emailService.toggleIsImportant(this.state.email.id )
         .then((email) => {
-            console.log('from component', this.state.star);
             this.setState({email})
         })
     }
@@ -48,11 +47,11 @@ export class EmailDetails extends React.Component {
         this.props.history.push('/email')
     }
 
-    showSentAtAsDate = (sentAt) => {
-        let date = new Date(sentAt)
-        if (date.getDate() === new Date().getDate()) return `${date.getHours()}:${date.getMinutes()}`
-        return `${date.getDate()}/${date.getMonth() + 1}`
-    }
+    // showSentAtAsDate = (sentAt) => {
+    //     let date = new Date(sentAt)
+    //     if (date.getDate() === new Date().getDate()) return `${date.getHours()}:${date.getMinutes()}`
+    //     return `${date.getDate()}/${date.getMonth() + 1}`
+    // }
 
     reply(email){
         // console.log(email);
@@ -91,7 +90,7 @@ export class EmailDetails extends React.Component {
                     <h2> sent by:{email.sentBy} </h2>
                     <h1>subject: {email.subject}</h1>
                     <p>{email.body}</p>
-                    <p>date: {this.showSentAtAsDate(email.sentAt)}</p>
+                    <p>date: {email.sentAt}</p>
                 </div>
             </div>
         )

@@ -2,9 +2,7 @@ import utilService from './utilService.js'
 import storageService from './storageService.js'
 
 const EMAILS_KEY = 'EMAILS'
-const EMAILSSENT_KEY = 'EMAILSSENT'
 var gEmails = null;
-var gEmailsSent = [];
 _createEmails()
 export default {
     query,
@@ -15,9 +13,6 @@ export default {
     emailIsRead,
     toggleIsImportant,
     unReadEmails,
-    emailIsSelect,
-    removeAllEmailsSelected,
-    markAsReadForAllSelected,
     sendEmail
 }
 
@@ -37,22 +32,26 @@ function _createEmail(sentBy, subject, body, isSent = false) {
         sentBy,
         subject,
         body,
-        sentAt: Date.now(),
+        sentAt: formatedSentAt(),
         isRead: false,
         isImportant: false,
-        isSelect: false,
         isSent
     }
 }
 
+function formatedSentAt() {
+    let date = new Date().toString().split(' ');
+    return date[0] + ' ' + date[1] + ' ' + date[2] + ' ' + date[3] + ' ' + date[4];
+}
+
 function query(currView, filterBy) {
-    // debugger
+
     var filteredEmails = storageService.load(EMAILS_KEY);
     if (!filteredEmails) filteredEmails = gEmails.slice()
     if (currView === 'Important') {
         filteredEmails = gEmails.filter(email => email.isImportant && !email.isSent);
     }
-    if( currView === 'Inbox'){
+    if (currView === 'Inbox') {
         filteredEmails = gEmails.filter(email => !email.isSent);
     }
     if (filterBy) {
@@ -70,14 +69,6 @@ function query(currView, filterBy) {
     return Promise.resolve(filteredEmails);
 }
 
-// function save() {
-//     let emailIdx = gEmails.findIndex((email) => email.id === emailId)
-//     if (emailIdx === -1) return;
-//     gEmails[emailIdx] = email;
-//     storageService.store(EMAILS_KEY, gEmails);
-//     return Promise.resolve(gEmails);
-// }
-
 function getById(id) {
     var email = gEmails.find(email => email.id === id);
 
@@ -88,11 +79,13 @@ function _getById(emailId) {
     return gEmails.find(email => email.id === emailId);
 }
 
-function emailIsRead(emailId) {
-    let email = _getById(emailId);
-    email.isRead = true;
-    storageService.store(EMAILS_KEY, gEmails);
-}
+// function emailIsRead(emailId) {
+//     let email = _getById(emailId);
+//     email.isRead = true;
+//     console.log(email);
+
+//     storageService.store(EMAILS_KEY, gEmails);
+// }
 
 function remove(emailId) {
     let emailIdx = gEmails.findIndex((email) => email.id === emailId)
@@ -114,35 +107,17 @@ function unReadEmails() {
     return gEmails.filter(email => !email.isRead && !email.isSent)
 }
 
-function emailIsSelect(emailId) {
-    let email = _getById(emailId);
-    email.isSelect = !email.isSelect;
+function emailIsRead(emailId, isRead) {
+    let emailIdx = gEmails.findIndex((email) => email.id === emailId)
+    if (emailIdx === -1) return;
+    gEmails[emailIdx].isRead = isRead;
     storageService.store(EMAILS_KEY, gEmails);
-}
-
-function getAllEmailsSelected() {
-    return gEmails.filter(email => email.isSelect)
-}
-
-function removeAllEmailsSelected() {
-    var emails = getAllEmailsSelected();
-    emails.forEach(email => {
-        remove(email.id)
-    });
-}
-
-function markAsReadForAllSelected(isRead) {
-    var emails = getAllEmailsSelected();
-    emails.forEach(email => {
-        email.isRead = isRead;
-    })
-    console.log('isOpen', gEmails);
-
-    storageService.store(EMAILS_KEY, gEmails);
+    return Promise.resolve();
 }
 
 function sendEmail(email) {
+    console.log(email);
+    
     gEmails.push(_createEmail(email.to, email.subject, email.body, true));
-    // storageService.store(EMAILSSENT_KEY, gEmailsSent);
-
+    storageService.store(EMAILS_KEY, gEmails);
 }

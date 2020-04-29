@@ -5,22 +5,10 @@ import EmailsFilter from '../../cmps/Email/EmailFilter.jsx'
 import SelectionFilter from '../../cmps/Email/SelectionFilter.jsx'
 import { EmailDetails } from './EmailDetails.jsx'
 import { CreateEmail } from './CreateEmail.jsx';
-
+//TO.DO ask jonathan about the problem with set state of isSelected at EmailPreview, solution without props!!
 const { Route, Switch } = ReactRouterDOM;
 
-function DynamicCmp(props) {
-    switch (props.currView) {
-        case 'Inbox':
-        case 'Important':
-        case 'Sent':
-            return <EmailList emails={props.emails}
-                updateCurrView={props.updateCurrView}
-                onSelectEmail={props.onSelectEmail}
-                onOpenEmail={props.onOpenEmail}></EmailList>
-        default:
-            return '//...some default error view'
-    }
-}
+
 
 export class EmailApp extends React.Component {
 
@@ -28,7 +16,8 @@ export class EmailApp extends React.Component {
         emails: null,
         currView: 'Inbox',
         filterBy: null,
-        selectedEmails: [/*{ids..}*/]
+        selectedEmails: [],
+        isRefresh: false
     };
 
     componentDidMount() {
@@ -42,26 +31,24 @@ export class EmailApp extends React.Component {
             })
     }
 
-    onOpenEmail = (emailId) => {
-        emailService.emailIsRead(emailId);
-        this.loadEmails();
-    }
-
     onSelectEmail = (emailId) => {
-        emailService.emailIsSelect(emailId);
+        const { selectedEmails } = this.state;
+        var emailIdx = selectedEmails.findIndex((id) => id === emailId);
+        if (emailIdx === -1) selectedEmails.push(emailId);
+        else selectedEmails.splice(emailIdx, 1);
         this.loadEmails();
     }
 
     updateCurrView = (currView) => {
         if (currView === 'Sent') {
-            this.setState({ currView, filterBy: { isSent: true } }, () => {
+            this.setState(prevState => {return { currView, filterBy: { isSent: true }, selectedEmails: [], isRefresh: !prevState.isRefresh }}, () => {
                 this.loadEmails()
                 console.log(this.state);
-                
+
             });
         }
         if (currView === 'Important' || currView === 'Inbox') {
-            this.setState({ currView, filterBy: { isSent: false } }, () => {
+            this.setState(prevState => {return{ currView, filterBy: { isSent: false }, selectedEmails: [], isRefresh: !prevState.isRefresh }}, () => {
                 this.loadEmails()
                 console.log(this.state);
 
@@ -74,6 +61,7 @@ export class EmailApp extends React.Component {
     }
 
     onRemoveAllEmailsSelected = () => {
+        console.log('this.state.selectedEmails', this.state.selectedEmails);
 
         var prms = this.state.selectedEmails.map(id => {
             return emailService.remove(id)
@@ -82,13 +70,27 @@ export class EmailApp extends React.Component {
             this.setState({ selectedEmails: [] })
             this.loadEmails();
         })
-        // emailService.removeAllEmailsSelected();
     }
 
-    onMarkAsReadForAllSelected = (isRead) => {
-
-        emailService.markAsReadForAllSelected(isRead);
+    //on click from email preview to open email
+    onOpenEmail = (emailId, isRead) => {
+        emailService.emailIsRead(emailId, isRead);
         this.loadEmails();
+    }
+
+    //on click selection as read emails
+    onSelectedEmailsIsRead = (isRead) => {
+        const { selectedEmails } = this.state;
+        var prms = selectedEmails.map(id => {
+            return emailService.emailIsRead(id, isRead);
+        });
+        Promise.all(prms).then(() => {
+            this.loadEmails();
+        })
+    }
+
+    getSelectedEmails() {
+        return this.state.selectedEmails;
     }
 
 
@@ -103,19 +105,18 @@ export class EmailApp extends React.Component {
                 <CreateEmail></CreateEmail>
                 <Switch>
                     <Route component={EmailDetails} path="/email/:emailId" />
+                    {/* <Route component={CreateEmail} path="/email/:emailId/:to" /> */}
                     <Route render={() => {
                         return (
                             <div className="email-search-and-table">
                                 <EmailsFilter onSetFilter={this.onSetFilter}></EmailsFilter>
-                                <SelectionFilter onRemoveAllEmailsSelected={this.onRemoveAllEmailsSelected} markAsReadForAllSelected={this.onMarkAsReadForAllSelected} />
-                                {/* {emails && <EmailList emails={emails} onOpenEmail={this.onOpenEmail}></EmailList>} */}
-                                {emails &&
-                                    <DynamicCmp
-                                        onOpenEmail={this.onOpenEmail}
-                                        currView={currView} emails={emails}
-                                        onSelectEmail={this.onSelectEmail}
-                                        updateCurrView={this.updateCurrView}>
-                                    </DynamicCmp>}
+                                <SelectionFilter removeAllEmailsSelected={this.onRemoveAllEmailsSelected} selectedEmailsIsRead={this.onSelectedEmailsIsRead} />
+                                {emails && <EmailList emails={emails}
+                                    isRefresh={this.state.isRefresh}
+                                    updateCurrView={this.updateCurrView}
+                                    onSelectEmail={this.onSelectEmail}
+                                    onOpenEmail={this.onOpenEmail}
+                                ></EmailList>}
                             </div>
                         )
                     }} path="/email" />

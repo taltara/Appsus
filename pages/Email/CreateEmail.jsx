@@ -13,7 +13,7 @@ export class CreateEmail extends React.Component {
     }
 
     componentDidMount() {
-        // console.log(this.props.match.emailId);
+        // console.log(this.props.match.params);
 
         // var email = emailService.getById(this.props.match.params.emailId);
         // if(!email) email = this.state.email;
@@ -44,7 +44,7 @@ export class CreateEmail extends React.Component {
         const field = target.name
         const value = (target.type === 'number') ? parseInt(target.value) : target.value
 
-        this.setState(prevState => ({ filter: { ...prevState.filter, [field]: value } }))
+        this.setState(prevState => ({ emailReply: { ...prevState.emailReply, [field]: value } }))
     }
 
     onChange(ev) {
@@ -69,15 +69,15 @@ export class CreateEmail extends React.Component {
                     <form className="flex column new-mail-form" action="" method="post" onSubmit={this.onChange}>
                         <div className="new-mail-form-title">Send New Mail</div>
                         <span>
-                            <label htmlFor="new-mail-subject">To: {emailReply.to}</label>
-                            <input type="email" id="new-mail-to" name="to" placeholder={(emailReply.to) ? '' : 'E.g shalom@gmail.com'} required="" onChange={this.handleChange} />
+                            <label htmlFor="new-mail-subject">To: </label>
+                            <input type="email" id="new-mail-to" name="to" value={emailReply.to} placeholder={(emailReply.to) ? '' : 'E.g shalom@gmail.com'} required="" onChange={this.handleChange} />
                         </span>
                         <span>
                             <label htmlFor="new-mail-cc">Cc:</label>
                             <input type="text" id="new-mail-cc" name="cc" placeholder="Copies to" onChange={this.handleChange} />
                         </span>
-                        <span><label htmlFor="new-mail-subject">Subject: {emailReply.subject}</label>
-                            <input type="text" id="new-mail-subject" name="subject" placeholder={(emailReply.subject) ? '' : 'Mail Subject'} required="" onChange={this.handleChange} />
+                        <span><label htmlFor="new-mail-subject">Subject: </label>
+                            <input type="text" id="new-mail-subject" name="subject" placeholder={(emailReply.subject) ? '' : 'Mail Subject'}  value={emailReply.subject} required="" onChange={this.handleChange} />
                         </span>
                         <textarea name="body" placeholder="Your mail: " required="" onChange={this.handleChange}>
                         </textarea>
@@ -92,3 +92,5 @@ export class CreateEmail extends React.Component {
     }
 
 }
+
+// 
