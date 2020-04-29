@@ -48,7 +48,7 @@ export class Todo extends React.Component {
         this.props.avoidClickPropagation();
         this.props.onRemoveTodo(this.props.todoIdx)
         .then(() => {
-            this.savingTimeout = setTimeout(() => {
+            // this.savingTimeout = setTimeout(() => {
                 if(!this.isUnmounting) {
 
                     this.setState({
@@ -58,7 +58,7 @@ export class Todo extends React.Component {
                         this.savingTimeout = null;
                     });
                 }
-            }, 100);
+            // }, 100);
         });
         
     }
