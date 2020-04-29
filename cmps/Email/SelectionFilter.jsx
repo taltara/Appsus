@@ -10,13 +10,11 @@ export default class SelectionFilter extends React.Component {
                 isOpenAll: !prevState.isOpenAll
             }
         },()=>{
-            console.log(this.state.isOpenAll);
-            this.props.markAsReadForAllSelected(this.state.isOpenAll)
+            this.props.selectedEmailsIsRead(this.state.isOpenAll)
         })
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log(this.props);
     }
 
     checkClassName() {
@@ -27,9 +25,10 @@ export default class SelectionFilter extends React.Component {
     }
 
     render() {
+        
         return (
             <div className="selection-container">
-                <button onClick={() => { this.props.removeAllEmailsSelected() }}>
+                <button onClick={this.props.removeAllEmailsSelected}>
                     <i className="fas fa-trash"></i>
                 </button>
                 <button onClick={() => {

@@ -5,33 +5,22 @@ const { Link } = ReactRouterDOM
 
 export class EmailPreview extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isSelected: false
-        };
-
-        this.onSelect = this.onSelect.bind(this);
-    }
-
     state = {
         isSelected: false
-
     };
 
-    componentDidMount() {
+    componentDidUpdate(prevProps) {
+        if(prevProps.isRefresh !== this.props.isRefresh) this.setState({ isSelected: false })
     }
 
-    onSelect = (event) => {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-        // ev.stopPropagation()
-        this.setState({
-            [name]: value
-        });
-        // debugger
-        this.props.onSelectEmail(this.props.email.id);
+    onSelect = () => {
+        this.setState((prevState) => {
+            return {
+                isSelected: !prevState.isSelected
+            }
+        }, () => {
+            this.props.onSelectEmail(this.props.email.id);
+        })
     }
 
     onToggleClass(email) {
@@ -53,21 +42,20 @@ export class EmailPreview extends React.Component {
         <Link to={`/email/${this.props.email.id}`}></Link>
     }
 
-    showSentAtAsDate = (sentAt) => {
-        let date = new Date(sentAt)
-        if (date.getDate() === new Date().getDate()) return `${date.getHours()}:${date.getMinutes()}`
-        return `${date.getDate()}/${date.getMonth() + 1}`
-    }
+    // showSentAtAsDate = (sentAt) => {
+    //     let date = new Date(sentAt)
+    //     if (date.getDate() === new Date().getDate()) return `${date.getHours()}:${date.getMinutes()}`
+    //     return `${date.getDate()}/${date.getMonth() + 1}`
+    // }
 
     render() {
         const { email, onOpenEmail } = this.props
-
         return (
             <React.Fragment>
                 <tr className={(email.isRead) ? 'read' : 'unread'}>
                     <td>
                         <button className="btn-select" onClick={this.onSelect}>
-                            <i className={(email.isSelect)? "fas fa-check-square": "far fa-check-square" }></i>
+                            <i className={(this.state.isSelected) ? "fas fa-check-square" : "far fa-check-square"}></i>
                         </button>
                         {/* <input value={this.state.isSelected} type="checkbox" checked={this.state.isSelected} onChange={this.onSelect} /> */}
                     </td>
@@ -81,9 +69,9 @@ export class EmailPreview extends React.Component {
                         {email.body}
                     </td>
                     <td>
-                        {this.showSentAtAsDate(email.sentAt)}
+                        {email.sentAt}
                     </td>
-                    <td className="link-to-email-details" onClick={() => onOpenEmail(email.id)}>
+                    <td className="link-to-email-details" onClick={() => onOpenEmail(email.id, true)}>
                         <Link to={`/email/${email.id}`}><i className="fas fa-expand-arrows-alt"></i></Link>
                     </td>
                 </tr >
