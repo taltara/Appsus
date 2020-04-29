@@ -106,8 +106,8 @@ export class NoteApp extends React.Component {
     onSearch = (searchBy, label = null) => {
         console.log(label, this.filterByLabel);
 
-        if(label.deleted) this.filterByLabel = ['toDelete'];
-        else if(label.archived) this.filterByLabel = ['isArchived'];
+        if(label && label.deleted) this.filterByLabel = ['toDelete'];
+        else if(label && label.archived) this.filterByLabel = ['isArchived'];
         else if (label) this.filterByLabel = label;
         this.setState({ searchBy: searchBy }, () => this.loadNotes());
     }
