@@ -203,6 +203,16 @@ export class NoteTodos extends React.Component {
 
     }
 
+    onAddTodo = () => {
+        if(this.state.todos[this.state.todos.length - 1].txt === '') return;
+        this.avoidClickPropagation();
+        let newTodo = { txt: '', doneAt: null };
+        let todos = this.state.todos;
+        todos.push(newTodo);
+
+        this.setState({ todos: todos });
+    }
+
     render() {
         const { label, todos, opacityClass, hovering, style } = this.state;
         const { note, addClass } = this.props;
@@ -225,6 +235,7 @@ export class NoteTodos extends React.Component {
 
                     }
                 </ul>
+                <img src="../../assets/img/keep/add.png" onClick={this.onAddTodo} className="add-input" />
                 <NoteTools hovering={hovering} updateFromTools={this.updateFromTools} 
                 avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} />
             </div>
