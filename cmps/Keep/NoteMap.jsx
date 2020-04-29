@@ -147,7 +147,7 @@ export class NoteMap extends React.Component {
             this.transition = true;
             this.setState(({ isPinned }) => ({ isPinned: !isPinned }),
                 () => {
-                    this.onSaveNote(0)
+                    this.onSaveNote(0);
                 });
             this.transitionTimeout = setTimeout(() => {
                 this.transition = false;
@@ -173,7 +173,17 @@ export class NoteMap extends React.Component {
 
     onClick = () => {
         if (this.transition) return;
-        this.props.toggleView(this.props.note.id, this.props.note.isPinned);
+        if(this.state.toDelete) {
+
+            this.setState({ toDelete: false }, () => {
+
+                this.onSaveNote(0);
+            });
+
+        } else {
+
+            this.props.toggleView(this.props.note.id, this.props.note.isPinned);
+        }
     }
 
     updateFromTools = (update, type) => {

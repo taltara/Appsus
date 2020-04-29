@@ -63,7 +63,7 @@ export class NoteApp extends React.Component {
         keepService.save(note)
             .then(() => {
                 this.loadNotes();
-                this.emitNewNote();
+                this.emitSaving();
             });
     }
 
@@ -75,7 +75,7 @@ export class NoteApp extends React.Component {
             });
     }
 
-    emitNewNote = () => {
+    emitSaving = () => {
 
         eventBus.emit('savedNote', { txt: `Saved!` });
     }
@@ -85,7 +85,7 @@ export class NoteApp extends React.Component {
         console.log(note);
         var notes = [...this.state.notes, note];
         console.log(notes);
-        this.emitNewNote(note);
+        this.emitSaving();
         keepService.add(note)
             .then(() => {
                 this.loadNotes();

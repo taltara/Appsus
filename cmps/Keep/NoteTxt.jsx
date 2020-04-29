@@ -131,8 +131,17 @@ export class NoteTxt extends React.Component {
 
     onClick = () => {
         if (this.transition) return;
-        console.log('GO!');
-        this.props.toggleView(this.props.note.id, this.props.note.isPinned);
+        if(this.state.toDelete) {
+
+            this.setState({ toDelete: false }, () => {
+
+                this.onSaveNote(0);
+            });
+
+        } else {
+
+            this.props.toggleView(this.props.note.id, this.props.note.isPinned);
+        }
     }
 
     updateFromTools = (update, type) => {
@@ -147,7 +156,9 @@ export class NoteTxt extends React.Component {
         } else if (type === 'label') {
 
             let labels = this.state.labels;
-            labels.push(update);
+            if(update != '') {
+                labels.push(update);
+            }
             console.log(labels);
             this.setState(({ labels: labels }), () => {
                 console.log(this.state.labels);

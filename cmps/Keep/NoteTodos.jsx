@@ -157,7 +157,17 @@ export class NoteTodos extends React.Component {
 
     onClick = () => {
         if (this.transition) return;
-        this.props.toggleView(this.props.note.id, this.props.note.isPinned);
+        if(this.state.toDelete) {
+
+            this.setState({ toDelete: false }, () => {
+
+                this.onSaveNote(0);
+            });
+
+        } else {
+
+            this.props.toggleView(this.props.note.id, this.props.note.isPinned);
+        }
     }
 
     updateFromTools = (update, type) => {

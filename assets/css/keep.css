@@ -330,7 +330,7 @@ audio {
 }
 
 .map-span {
-    width: 15rem;
+    width: 115%;
     height: 15rem;
 }
 
@@ -390,6 +390,9 @@ audio {
     opacity: 0;
 }
 
+.note .note-tools .label-input:focus {
+    opacity: 1;
+}
 
 .note-header {
     width: 100%;
@@ -498,12 +501,24 @@ audio {
     width: 2rem;
     margin: 0 0.5rem 0 2rem;
     transition: ease-in-out 0.15s;
+    filter: contrast(0.25);
     
 }
 
 .labels-list {
     align-items: flex-end;
     padding-left: 0;
+}
+
+.other-labels {
+    width: 100%;
+    max-height: 28rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.other-labels::-webkit-scrollbar {
+    display: none;
 }
 
 .notes-menu-logo {

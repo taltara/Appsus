@@ -3,6 +3,7 @@ export class Todo extends React.Component {
     constructor() {
         super();
         this.savingTimeout = null;
+        this.isUnmounting = false;
     }
 
     state = {
@@ -24,6 +25,7 @@ export class Todo extends React.Component {
 
     componentWillUnmount() {
 
+        this.isUnmounting = true;
         clearTimeout(this.savingTimeout);
     }
  
@@ -47,13 +49,15 @@ export class Todo extends React.Component {
         this.props.onRemoveTodo(this.props.todoIdx)
         .then(() => {
             this.savingTimeout = setTimeout(() => {
-                
-                this.setState({
-                    doneAt: this.props.todo.doneAt,
-                    txt: this.props.todo.txt,
-                }, () => {
-                    this.savingTimeout = null;
-                });
+                if(!this.isUnmounting) {
+
+                    this.setState({
+                        doneAt: this.props.todo.doneAt,
+                        txt: this.props.todo.txt,
+                    }, () => {
+                        this.savingTimeout = null;
+                    });
+                }
             }, 100);
         });
         
