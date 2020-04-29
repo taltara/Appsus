@@ -166,8 +166,13 @@ body {
     transition: ease-in-out 0.15s;
 }
 
-.keep-main input {
+.notes-section input, .notes-section textarea {
     font-size: 1rem;
+    transition: ease-in-out 0.2s;
+    border: 1px dashed transparent;
+}
+.notes-section input:hover, .notes-section textarea:hover {
+    border: 1px dashed rgba(32, 33, 36, 0.75);
 }
 
 .keep-main textarea {
