@@ -87,10 +87,11 @@ export class EmailDetails extends React.Component {
                     </section>
                 </div>
                 <div className="email-body">
-                    <h2> sent by:{email.sentBy} </h2>
-                    <h1>subject: {email.subject}</h1>
-                    <p>{email.body}</p>
-                    <p>date: {email.sentAt}</p>
+                    <p className="date-details detail">Sent at: {email.sentAt}</p>
+                    <h1 className="send-by-details detail"> Sent by: {email.sentBy} </h1>
+                    <h1 className="subject-details detail">Subject: {email.subject}</h1>
+                    <p className="body-details detail">{email.body}</p>
+                    {email.url && <div className="img-detail"><img src={`${email.url}`}></img></div>}
                 </div>
             </div>
         )
