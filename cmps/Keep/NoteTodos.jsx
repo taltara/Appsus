@@ -233,7 +233,7 @@ export class NoteTodos extends React.Component {
     }
 
     render() {
-        const { label, todos, opacityClass, hovering, style } = this.state;
+        const { label, todos, opacityClass, hovering, style, labels } = this.state;
         const { note, addClass } = this.props;
         return (
             <div className={`note note-todo flex column align-center space-center ${addClass} ${opacityClass}`}
@@ -257,7 +257,7 @@ export class NoteTodos extends React.Component {
                 </ul>
                 <img src="../../assets/img/keep/add.png" onClick={this.onAddTodo} className="add-input" />
                 <NoteTools hovering={hovering} updateFromTools={this.updateFromTools} onArchiveNote={this.onArchiveNote}
-                avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} />
+                avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote}  labels={labels} />
             </div>
         )
     }

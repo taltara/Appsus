@@ -240,7 +240,7 @@ export class NoteMap extends React.Component {
     }
 
     render() {
-        const { opacityClass, title, hovering, style } = this.state;
+        const { opacityClass, title, hovering, style, labels } = this.state;
         const { addClass } = this.props;
         return (
             <div className={`note note-map flex column align-center space-center ${addClass} ${opacityClass}`}
@@ -254,7 +254,7 @@ export class NoteMap extends React.Component {
                     <div className="map" ref={this.map}></div>
                 </span>
                 <NoteTools hovering={hovering} updateFromTools={this.updateFromTools} onArchiveNote={this.onArchiveNote}
-                    avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} />
+                    avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} labels={labels} />
             </div>
         )
     }

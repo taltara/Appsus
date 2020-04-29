@@ -206,7 +206,7 @@ export class NoteAudio extends React.Component {
     }
 
     render() {
-        const { title, audioUrl, opacityClass, style, hiddenClass, hovering } = this.state;
+        const { title, audioUrl, opacityClass, style, hiddenClass, hovering, labels } = this.state;
         const { addClass } = this.props;
         return (
             <div className={`note note-video flex column align-center space-center ${hiddenClass} ${addClass} ${opacityClass}`}
@@ -225,7 +225,7 @@ export class NoteAudio extends React.Component {
                     </audio>
                 </span>
                 <NoteTools hovering={hovering} updateFromTools={this.updateFromTools} onArchiveNote={this.onArchiveNote}
-                avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} />
+                avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} labels={labels} />
             </div>
         )
     }

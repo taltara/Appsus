@@ -218,7 +218,7 @@ export class NoteVideo extends React.Component {
     }
 
     render() {
-        const { title, videoUrl, opacityClass, hovering, style } = this.state;
+        const { title, videoUrl, opacityClass, hovering, style, labels } = this.state;
         const { addClass } = this.props;
         return (
             <div className={`note note-video flex column align-center space-center ${addClass} ${opacityClass}`}
@@ -232,7 +232,7 @@ export class NoteVideo extends React.Component {
                     <iframe src={videoUrl}></iframe>
                 </span>
                 <NoteTools hovering={hovering} updateFromTools={this.updateFromTools} onArchiveNote={this.onArchiveNote}
-                avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} />
+                avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} labels={labels} />
             </div>
         )
     }

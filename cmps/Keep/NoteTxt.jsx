@@ -209,7 +209,7 @@ export class NoteTxt extends React.Component {
     }
 
     render() {
-        const { title, txt, opacityClass, hovering, style } = this.state;
+        const { title, txt, opacityClass, hovering, style, labels } = this.state;
         const { addClass } = this.props;
         return (
             <div className={`note note-txt flex column align-center space-center ${addClass} ${opacityClass}`}
@@ -223,7 +223,7 @@ export class NoteTxt extends React.Component {
                 <textarea name="" cols="1" rows="5" placeholder="Take a note..." onChange={this.handleChange}
                     name="txt" value={txt} onClick={this.avoidClickPropagation} placeholder="Enter Note"></textarea>
                 <NoteTools hovering={hovering} updateFromTools={this.updateFromTools} onArchiveNote={this.onArchiveNote}
-                    avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} />
+                    avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} labels={labels} />
             </div>
         )
     }

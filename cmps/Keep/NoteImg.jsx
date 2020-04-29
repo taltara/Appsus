@@ -213,8 +213,8 @@ export class NoteImg extends React.Component {
     }
 
     render() {
-        const { title, imgUrl, opacityClass, style, hiddenClass, hovering } = this.state;
-        const { toggleView, note, addClass } = this.props;
+        const { title, imgUrl, opacityClass, style, hiddenClass, hovering, labels } = this.state;
+        const { addClass } = this.props;
         return ( //
             <div className={`note note-img flex column align-center space-center ${hiddenClass} ${addClass} ${opacityClass}`}
                 style={style} onClick={() => this.onClick()} onMouseEnter={this.onHover} onMouseLeave={this.onHover}>
@@ -227,7 +227,7 @@ export class NoteImg extends React.Component {
                 </span>
                 <img src={imgUrl} alt="" onLoad={this.onLoadShowImg} />
                 <NoteTools hovering={hovering} updateFromTools={this.updateFromTools}  onArchiveNote={this.onArchiveNote}
-                avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} />
+                avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote} labels={labels} />
             </div>
         )
     }

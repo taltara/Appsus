@@ -12,10 +12,12 @@ export class NoteTools extends React.Component {
         },
         inFocus: false,
         label: '',
+        labels: [],
     };
 
     componentDidMount() {
-
+        // let labels = this.props.labels;
+        // this.setState({ labels: labels });
     }
     componentDidUpdate() {
 
@@ -24,7 +26,7 @@ export class NoteTools extends React.Component {
     addLabel = () => {
         console.log(event.keyCode);
         console.log(this.state.label);
-        if(event.keyCode === 13) {
+        if (event.keyCode === 13) {
 
             this.props.updateFromTools(this.state.label, 'label');
             this.setState({ label: '' });
@@ -37,7 +39,7 @@ export class NoteTools extends React.Component {
         const field = event.target.name
         const value = event.target.value;
 
-        if(field === 'label') {
+        if (field === 'label') {
 
             this.setState({ [field]: value });
         } else {
@@ -47,11 +49,11 @@ export class NoteTools extends React.Component {
                     { [field]: value }
             }), () => {
                 console.log(this.state.label);
-    
-    
-                    console.log(this.state);
-                    this.props.updateFromTools(this.state.style, 'style');
-                
+
+
+                console.log(this.state);
+                this.props.updateFromTools(this.state.style, 'style');
+
             });
         }
     }
@@ -66,27 +68,36 @@ export class NoteTools extends React.Component {
 
     render() {
         const { backgroundColor } = this.state.style;
-        const { hovering, onRemoveNote, onArchiveNote, avoidClickPropagation } = this.props;
+        const { hovering, onRemoveNote, onArchiveNote, avoidClickPropagation, labels } = this.props;
         const { inFocus, label } = this.state;
 
         const addLabelClass = (inFocus) ? 'label-section-focus' : 'label-section-unfocus';
         return (
-            <footer className="note-tools flex align-center space-between">
-                <span className="edit-tools-span flex align-center space-center">
-                <img src="../../assets/img/keep/todo-remove.png" onClick={onRemoveNote}
-                    className={`delete-note tool ${(hovering) ? 'show-tool' : ''}`} />
-                <img src="../../assets/img/keep/archive.png" onClick={onArchiveNote}
-                    className={`archive-note tool ${(hovering) ? 'show-tool' : ''}`} />
+            <span className="note-tools-span flex column align-center space-center">
+                <section className="labels-section flex align-center space-center">
+                    {(labels.length) ?
+                        labels.map(label => {
+                            return <p>{`< ${label} >`}</p>;
+                        }) : null
+                    }
+                </section>
+                <footer className="note-tools flex align-center space-between">
+                    <span className="edit-tools-span flex align-center space-center">
+                        <img src="../../assets/img/keep/todo-remove.png" onClick={onRemoveNote}
+                            className={`delete-note tool ${(hovering) ? 'show-tool' : ''}`} />
+                        <img src="../../assets/img/keep/archive.png" onClick={onArchiveNote}
+                            className={`archive-note tool ${(hovering) ? 'show-tool' : ''}`} />
 
-                </span>
-                <input type="text" name="label" onBlur={this.onFocusToggle} onFocus={this.onFocusToggle} maxLength="30"
-                    className={`label-input ${addLabelClass} ${(hovering) ? 'show-tool' : ''}`} 
-                    placeholder="Add Label" value={label} onChange={this.handleChange} onKeyPress={this.addLabel}/>
-                <span className="other-tools">
-                    <input type="color" name="backgroundColor" className={`tool color-picker ${(hovering) ? 'show-tool' : ''}`}
-                        defaultValue={backgroundColor} onChange={this.handleChange} onClick={() => { avoidClickPropagation() }} />
-                </span>
-            </footer>
+                    </span>
+                    <input type="text" name="label" onBlur={this.onFocusToggle} onFocus={this.onFocusToggle} maxLength="30"
+                        className={`label-input ${addLabelClass} ${(hovering) ? 'show-tool' : ''}`}
+                        placeholder="Add Label" value={label} onChange={this.handleChange} onKeyPress={this.addLabel} />
+                    <span className="other-tools">
+                        <input type="color" name="backgroundColor" className={`tool color-picker ${(hovering) ? 'show-tool' : ''}`}
+                            defaultValue={backgroundColor} onChange={this.handleChange} onClick={() => { avoidClickPropagation() }} />
+                    </span>
+                </footer>
+            </span>
         )
     }
 };

@@ -63,28 +63,21 @@ body {
     filter: opacity(0.5);
 }
 
-.search-section-focus  {
-
+.search-section-focus {
     filter: unset;
 }
-.search-section-unfocus  {
 
+.search-section-unfocus {
     filter: opacity(0.5);
 }
 
-.label-section-focus  {
-
+.label-section-focus {
     filter: unset;
 }
 
-.note-tools .label-section-unfocus  {
-
+.note-tools .label-section-unfocus {
     filter: opacity(0.25);
 }
-
-
-
-
 
 .search-section input {
     width: 100%;
@@ -171,6 +164,7 @@ body {
     transition: ease-in-out 0.2s;
     border: 1px dashed transparent;
 }
+
 .notes-section input:hover, .notes-section textarea:hover {
     border: 1px dashed rgba(32, 33, 36, 0.75);
 }
@@ -206,12 +200,29 @@ body {
     border-radius: 0.5rem;
     position: relative;
     overflow: hidden;
+}
 
+.note-tools {
+    width: 100%;
+}
+
+.note-tools-span {
+    width: 100%;
+}
+
+.labels-section {
+    overflow: hidden;
+    opacity: 0.15;
+    margin: 0.25rem auto 0;
+    width: 100%;
+}
+
+.note-todo .labels-section {
+    margin-left: 0.35rem;
 }
 
 .note-tools .delete-note, .note-tools .archive-note {
     width: 1.5rem;
-
 }
 
 .note-tools .archive-note:hover {
@@ -223,23 +234,19 @@ body {
 }
 
 .edit-tools-span {
-
     width: 3rem;
 }
 
 .notes-section .note-todo .edit-tools-span {
-
     width: 4rem;
     margin-left: -0.5rem;
 }
 
 .note-todo {
-
     padding: 0.25rem 1rem 0.75rem 0.25rem;
 }
 
 .note-todo .note-header {
-
     margin-left: 1rem;
 }
 
@@ -358,8 +365,6 @@ audio {
     height: 100%;
 }
 
-
-
 /* TOOLS */
 
 .tool {
@@ -445,7 +450,7 @@ audio {
     flex-direction: column;
     padding: 0;
     border-left: 1px solid rgba(41, 41, 41, 0.7);
-    background-color: rgba(32,33,36, 0.975);
+    background-color: rgba(32, 33, 36, 0.975);
     transition: ease-in-out 0.4s;
     transform: translateX(-77%);
     z-index: 3;
@@ -465,7 +470,6 @@ audio {
 }
 
 .side-menu img {
-
     filter: contrast(0.5);
 }
 
@@ -475,7 +479,6 @@ audio {
 }
 
 .side-menu .active-navbar {
-
     color: rgba(255, 255, 255, 1);
     background-color: rgba(255, 255, 255, 0.25);
     border: inset 2px rgba(255, 255, 255, 0.5);
@@ -498,7 +501,7 @@ audio {
     border: inset 2px transparent;
 }
 
-.main-label >:first-child {
+.main-label>:first-child {
     font-size: 1.25rem;
     margin-inline-start: 1rem;
 }
@@ -507,12 +510,11 @@ audio {
     margin-bottom: 0.5rem;
 }
 
-.label-label >:first-child {
+.label-label>:first-child {
     margin-inline-start: 2rem;
 }
 
 .main-label:last-of-type {
-
     margin-top: 0.5rem;
 }
 
@@ -526,7 +528,6 @@ audio {
     margin: 0 0.5rem 0 2rem;
     transition: ease-in-out 0.15s;
     filter: contrast(0.25);
-    
 }
 
 .labels-list {
@@ -550,10 +551,7 @@ audio {
     width: 2rem;
 }
 
-
 /* TODO */
-
-
 
 .todos-section {
     width: 100%;
@@ -562,9 +560,8 @@ audio {
 .todo {
     width: 100%;
     transition: ease-in-out 0.15s;
-    padding: 0.25rem 0;  
+    padding: 0.25rem 0;
 }
-
 
 .note-todo .todo-slide {
     margin-left: 0;
@@ -575,7 +572,6 @@ audio {
 }
 
 .todo img {
-
     width: 1.5rem;
     margin-right: 2rem;
     margin-left: -1.75rem;
@@ -600,7 +596,6 @@ audio {
 }
 
 .add-input {
-
     width: 2rem;
     cursor: pointer;
     transition: ease-in-out 0.15s;
@@ -616,11 +611,9 @@ audio {
     width: 100%;
 }
 
-
 /* MSG */
 
 .saved-message {
-
     color: white;
     position: absolute;
     right: 0;
