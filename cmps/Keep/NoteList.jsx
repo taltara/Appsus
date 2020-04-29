@@ -33,27 +33,27 @@ export class NoteList extends React.Component {
         if (note.type === 'NoteTxt') {
 
             el = <NoteTxt note={note} key={note.created} toggleView={this.props.toggleView}
-             addClass={addClass} saveNote={this.props.saveNote} />;
+             addClass={addClass} saveNote={this.props.saveNote} deleteNote={this.props.deleteNote} />;
         } else if (note.type === 'NoteImg') {
 
             el = <NoteImg note={note} key={note.created} toggleView={this.props.toggleView}
-             addClass={addClass} saveNote={this.props.saveNote}  />;
+             addClass={addClass} saveNote={this.props.saveNote} deleteNote={this.props.deleteNote} />;
         } else if (note.type === 'NoteTodos') {
 
             el = <NoteTodos note={note} key={note.created} toggleView={this.props.toggleView}
-             addClass={addClass} saveNote={this.props.saveNote}  />;
+             addClass={addClass} saveNote={this.props.saveNote} deleteNote={this.props.deleteNote} />;
         } else if (note.type === 'NoteVideo') {
 
             el = <NoteVideo note={note} key={note.created} toggleView={this.props.toggleView}
-             addClass={addClass} saveNote={this.props.saveNote}  />;
+             addClass={addClass} saveNote={this.props.saveNote} deleteNote={this.props.deleteNote} />;
         } else if (note.type === 'NoteAudio') {
 
             el = <NoteAudio note={note} key={note.created} toggleView={this.props.toggleView}
-             addClass={addClass} saveNote={this.props.saveNote}  />;
+             addClass={addClass} saveNote={this.props.saveNote} deleteNote={this.props.deleteNote} />;
         } else if (note.type === 'NoteMap') {
 
             el = <NoteMap note={note} key={note.created} toggleView={this.props.toggleView}
-             addClass={addClass} saveNote={this.props.saveNote}  />;
+             addClass={addClass} saveNote={this.props.saveNote} deleteNote={this.props.deleteNote} />;
         }
 
         // console.log(el);
@@ -63,25 +63,24 @@ export class NoteList extends React.Component {
     render() {
 
         const {pinnedNotes, unpinnedNotes} = this.props;
-
+        
         return (
             <section className="notes-section flex column align-center space-center">
-                {pinnedNotes.length &&
-                    <span className="pinned-span flex column align-start space-center wrap">
+                {(pinnedNotes.length) ? 
+                    <span className="pinned-span flex column align-start space-center">
                         <p className="notes-sector-header">Pinned</p>
-                        <div className="notes-pinned flex align-start space-start">
+                        <div className="notes-pinned flex align-start space-start wrap">
                             {
                                 pinnedNotes.map(note => {
                                     let el = this.DynamicCmp(note);
                                     
-                                    // console.log(el);
                                     return el;
                                 })
                             }
                         </div>
-                    </span>
+                    </span> : null
                 }
-                {unpinnedNotes.length &&
+                {(unpinnedNotes.length) ?
                     <span className="unpinned-span flex column align-start space-center">
                         <p className="notes-sector-header">Unpinned</p>
 
@@ -89,14 +88,13 @@ export class NoteList extends React.Component {
                             {
 
                                 unpinnedNotes.map(note => {
-
                                     let el = this.DynamicCmp(note);
-                                    // console.log(el);
+
                                     return el;
                                 })
                             }
                         </div>
-                    </span>
+                    </span> : null
                 }
 
             </section>

@@ -9,6 +9,7 @@ const NOTEIMG = 'NoteImg';
 const NOTETODOS = 'NoteTodos';
 const NOTEVIDEO = 'NoteVideo';
 const NOTEMAP = 'NoteMap';
+const NOTEAUDIO = 'NoteAudio';
 
 
 export default {
@@ -29,25 +30,42 @@ function populateNotes () {
 }
 
 
-function query(searchBy) {
+function query(searchBy, labelFilter = null) {
 
     if (!gNotes || !searchBy) gNotes = storageService.load(STORAGE_KEY, noteDb);
 
-    console.log(gNotes);
     var currNotes = gNotes;
+    let deleted = false;
 
-    if (searchBy && searchBy != '') {
-        console.log(searchBy);
+    if(labelFilter && !Array.isArray(labelFilter)) {
+        currNotes = gNotes.filter(note => {
+
+            return note.labels.some(label => {
+                return label === labelFilter;
+            })
+        });
+    } else if (Array.isArray(labelFilter) && labelFilter[0] === 'toDelete') {
 
         currNotes = gNotes.filter(note => {
 
-            if (note.type === NOTETXT) {
-                console.log((note.info.txt.toLowerCase()).includes(searchBy));
+            return note.toDelete;
+        });
+        deleted = true;
+    }
+
+
+    if (searchBy && searchBy != '') {
+
+        currNotes = currNotes.filter(note => {
+
+            if (note.toDelete && !deleted) return false;
+            else if (note.type === NOTETXT) {
+
                 return (note.info.txt.toLowerCase()).includes(searchBy) ||
                     (note.info.title.toLowerCase()).includes(searchBy);
 
             } else if (note.type === NOTEIMG) {
-                console.log((note.info.title.toLowerCase()).includes(searchBy));
+
                 return (note.info.title.toLowerCase()).includes(searchBy);
 
             } else if (note.type === NOTETODOS) {
@@ -58,9 +76,34 @@ function query(searchBy) {
                     console.log(match);
                     if (match) return match;
                 }));
+
+            } else if (note.type === NOTEVIDEO) {
+
+                return (note.info.title.toLowerCase()).includes(searchBy) ||
+                        (note.info.videoUrl.toLowerCase().includes(searchBy));
+
+            } else if (note.type === NOTEMAP) {
+
+                return (note.info.title.toLowerCase()).includes(searchBy) ||
+                        (note.info.mapSearch.toLowerCase().includes(searchBy));
+
+            } else if (note.type === NOTEAUDIO) {
+
+                return (note.info.title.toLowerCase()).includes(searchBy) ||
+                        (note.info.audioUrl.toLowerCase().includes(searchBy));
+
             }
         })
 
+    } else {
+
+        if(!deleted) {
+
+            currNotes = currNotes.filter(note => {
+                return !note.toDelete;
+            })
+
+        }
     }
 
     return Promise.resolve(currNotes);
@@ -78,9 +121,11 @@ function save(noteToSave) {
 }
 
 function add(noteToSave) {
-
-    (gNotes) ? gNotes.unshift(noteToSave) : gNotes = [noteToSave];
+    console.log(noteToSave);
+    (gNotes) ? gNotes.push(noteToSave) : gNotes = [noteToSave];
     storageService.store(STORAGE_KEY, gNotes);
+
+    return Promise.resolve();
 }
 
 function remove(noteId) {
@@ -121,7 +166,12 @@ var noteDb = [
             txt: "Fullstack Me Baby!"
         },
         created: 1587924629901,
-        id: 'ASDF4'
+        id: 'ASDF4',
+        labels: [
+            'work',
+            'important'
+        ],
+        toDelete: true
     },
     {
         type: "NoteTxt",
@@ -131,7 +181,12 @@ var noteDb = [
             txt: "Fullstack Me Baby!"
         },
         created: 1587924629902,
-        id: 'ASDF4s'
+        id: 'ASDF4s',
+        labels: [
+            'home',
+            'important'
+        ],
+        toDelete: false
     },
     {
         type: "NoteTxt",
@@ -141,7 +196,11 @@ var noteDb = [
             txt: "Fullstack Me Baby!"
         },
         created: 1587924629903,
-        id: 'ASDF24'
+        id: 'ASDF24',
+        labels: [
+            'game night',
+        ],
+        toDelete: false
     },
     {
         type: "NoteImg",
@@ -154,7 +213,12 @@ var noteDb = [
             backgroundColor: "#00d"
         },
         created: 1587924629909,
-        id: 'ASDF249'
+        id: 'ASDF249',
+        labels: [
+            'secret',
+            'important'
+        ],
+        toDelete: false
     },
     {
         type: "NoteTodos",
@@ -162,12 +226,20 @@ var noteDb = [
         info: {
             label: "How was it:",
             todos: [
-                { txt: "Do that", doneAt: null },
-                { txt: "Do this", doneAt: 187111111 }
+                { txt: "0", doneAt: null },
+                { txt: "1", doneAt: 187111111 },
+                { txt: "2", doneAt: null },
+                { txt: "3", doneAt: 187111111 },
+                { txt: "4", doneAt: 187111111 },
             ]
         },
         created: 1587924629503,
-        id: 'ASDh74'
+        id: 'ASDh74',
+        labels: [
+            'game night',
+            'the sopranos'
+        ],
+        toDelete: false
     },
     {
         type: "NoteVideo",
@@ -177,7 +249,11 @@ var noteDb = [
             videoUrl: 'https://www.youtube.com/watch?v=aFLFujQNX9s'
         },
         created: 1587926629903,
-        id: 'AHDh74'
+        id: 'AHDh74',
+        labels: [
+
+        ],
+        toDelete: false
     },
     {
         type: "NoteAudio",
@@ -187,7 +263,12 @@ var noteDb = [
             audioUrl: 'https://www.computerhope.com/jargon/m/example.mp3'
         },
         created: 1587967629903,
-        id: 'Bjhf74'
+        id: 'Bjhf74',
+        labels: [
+            'work',
+            'gaming'
+        ],
+        toDelete: false
     },
     {
         type: "NoteMap",
@@ -197,6 +278,11 @@ var noteDb = [
             mapSearch: '34/27 sheshet hayamim, kfar saba'
         },
         created: 1387467629903,
-        id: 'Bjkf74'
+        id: 'Bjkf74',
+        labels: [
+
+            'important'
+        ],
+        toDelete: false
     }
 ];
