@@ -230,9 +230,9 @@ body {
 }
 
 .note:hover {
-    -webkit-box-shadow: 0px 0px 7px 0px rgba(255, 255, 255, 0.5);
-    -moz-box-shadow: 0px 0px 7px 0px rgba(255, 255, 255, 0.5);
-    box-shadow: 0px 0px 7px 0px rgba(255, 255, 255, 0.5);
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(255, 255, 255, 0.25);
+    -moz-box-shadow: 0px 0px 7px 0px rgba(255, 255, 255, 0.25);
+    box-shadow: 0px 0px 7px 0px rgba(255, 255, 255, 0.25);
 }
 
 .keep-main .keep-content .show-note {
@@ -298,7 +298,7 @@ body {
 }
 
 .note-img img {
-    width: 100%;
+    width: 116%;
 }
 
 .note-video {

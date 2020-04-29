@@ -82,9 +82,9 @@ export class NoteApp extends React.Component {
 
     addNote = (note) => {
 
-        console.log(note);
+        // console.log(note);
         var notes = [...this.state.notes, note];
-        console.log(notes);
+        // console.log(notes);
         this.emitSaving();
         keepService.add(note)
             .then(() => {
@@ -159,7 +159,7 @@ export class NoteApp extends React.Component {
         var unpinnedNotes = [];
 
         notes.forEach((note) => {
-            console.log(note);
+            // console.log(note);
 
             if (note.labels) {
 
@@ -180,7 +180,7 @@ export class NoteApp extends React.Component {
         return (
             <main className={`keep-main ${(noteInFocus) ? 'menu-open' : ''}`}>
                 <UserMsg savedNote={true} type={'savedNote'}/>
-                {/* <p className="saved-message">Saved!</p> */}
+                
                 <SideMenu labels={this.notesLabels} onSearch={this.onSearch} />
                 <section className="screen" onClick={this.toggleView}></section>
                 <div className="keep-content flex column align-center space-center">
