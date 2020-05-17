@@ -1,10 +1,5 @@
 export class NoteTools extends React.Component {
 
-    constructor() {
-        super();
-
-    }
-
     state = {
         style: {
 
@@ -18,9 +13,6 @@ export class NoteTools extends React.Component {
     componentDidMount() {
         // let labels = this.props.labels;
         // this.setState({ labels: labels });
-    }
-    componentDidUpdate() {
-
     }
 
     addLabel = () => {
@@ -83,9 +75,9 @@ export class NoteTools extends React.Component {
                 </section>
                 <footer className="note-tools flex align-center space-between">
                     <span className="edit-tools-span flex align-center space-center">
-                        <img src="../../assets/img/keep/todo-remove.png" onClick={onRemoveNote}
+                        <img src="assets/img/keep/todo-remove.png" onClick={onRemoveNote}
                             className={`delete-note tool ${(hovering) ? 'show-tool' : ''}`} />
-                        <img src="../../assets/img/keep/archive.png" onClick={onArchiveNote}
+                        <img src="assets/img/keep/archive.png" onClick={onArchiveNote}
                             className={`archive-note tool ${(hovering) ? 'show-tool' : ''}`} />
 
                     </span>
