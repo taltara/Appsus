@@ -56,8 +56,8 @@ export class BookApp extends React.Component {
                 <section className="main-section flex column">
                     <header className="tools-header flex align-center space-between">
 
-                        <img src="../assets/img/add-book.png" title="Add Book" className={`tool-img ${(showSearch) ? 'in-use' : ''}`} onClick={this.onShowSearch} />
-                        <img src="../assets/img/filter.png" title="Filter Collection" className={`tool-img ${(showFilter) ? 'in-use' : ''}`} onClick={this.onShowFilter} />
+                        <img src="assets/img/add-book.png" title="Add Book" className={`tool-img ${(showSearch) ? 'in-use' : ''}`} onClick={this.onShowSearch} />
+                        <img src="assets/img/filter.png" title="Filter Collection" className={`tool-img ${(showFilter) ? 'in-use' : ''}`} onClick={this.onShowFilter} />
 
                     </header>
                     {showSearch && <BookAdd onNewBook={this.onNewBook} onShowSearch={this.onShowSearch} />}
