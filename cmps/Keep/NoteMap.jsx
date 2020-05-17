@@ -248,7 +248,7 @@ export class NoteMap extends React.Component {
                 <span className="note-header flex align-center space-center">
                     <input type="text" name="title" className="title" defaultValue={title}
                         onChange={this.handleChange} placeholder="Title" />
-                    <img src="../assets/img/keep/pin.png" className={`tool-pin tool ${(hovering) ? 'show-tool' : ''}`} onClick={() => this.handleTools('pin')} />
+                    <img src="assets/img/keep/pin.png" className={`tool-pin tool ${(hovering) ? 'show-tool' : ''}`} onClick={() => this.handleTools('pin')} />
                 </span>
                 <span className="map-span">
                     <div className="map" ref={this.map}></div>
