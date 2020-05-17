@@ -91,9 +91,9 @@ export class Todo extends React.Component {
         // console.log(todo);
         return (
             <li className="todo flex align-center space-start" onMouseEnter={this.onHover} onMouseLeave={this.onHover}>
-                <img className={`${(showDelete) ? 'todo-slide' : ''}`} src="../../assets/img/keep/todo-remove.png"
+                <img className={`${(showDelete) ? 'todo-slide' : ''}`} src="assets/img/keep/todo-remove.png"
                     onClick={this.onTodoDelete} />
-                <img src="../../assets/img/keep/todo-done.png" onClick={this.onTodoDone} />
+                <img src="assets/img/keep/todo-done.png" onClick={this.onTodoDone} />
                 <input type="text" value={todo.txt} name="txt" onChange={this.handleChange} placeholder={`To Do #${this.props.todoIdx + 1}`}
                     className={`${(doneAt) ? 'todo-done' : ''}`} onClick={avoidClickPropagation} /></li>
         )
