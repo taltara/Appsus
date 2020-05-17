@@ -7,7 +7,7 @@ export function NavBar(props) {
     return (
 
         <nav className="app-nav flex space-between align-center">
-            <NavLink exact to='/'><img src="../assets/img/appsus-logo.svg" className="main-logo" /></NavLink>
+            <NavLink exact to='/'><img src="assets/img/appsus-logo.svg" className="main-logo" /></NavLink>
             <UserMsg></UserMsg>
             <span className="nav-links-span flex align-center space-between">
                 <p className="navlink-collection navlink"><NavLink exact to='/books'>Books</NavLink></p>
