@@ -162,9 +162,9 @@ export class BookDetails extends React.Component {
                                 )
                             }
                         </div>
-                        {ageNote && <p className="date-note note">-{ageNote}-</p>}
+                        {ageNote && <p className="date-note secondary-note">-{ageNote}-</p>}
                         <img src={book.thumbnail} className={`book-img ${addClass}`} onLoad={this.onLoadShowImg} />
-                        {lengthNote && <p className="length-note note">-{lengthNote}-</p>}
+                        {lengthNote && <p className="length-note secondary-note">-{lengthNote}-</p>}
                         <div className="book-categories flex space-evenly">
                             {
                                 book.categories.map((category, idx, array) =>
