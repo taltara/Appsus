@@ -229,12 +229,12 @@ export class NoteAdd extends React.Component {
                     }
                     <div className={`add-note-tools flex align-center space-between ${addToolsClass}`}>
                         <button type="submit">Add</button>
-                        <img src="../../assets/img/keep/text.png" className={`tool-text ${(type === 'NoteTxt') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteTxt')} />
-                        <img src="../../assets/img/keep/photo.png" className={`tool-img ${(type === 'NoteImg') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteImg')} />
-                        <img src="../../assets/img/keep/map.png" className={`tool-map ${(type === 'NoteMap') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteMap')} />
-                        <img src="../../assets/img/keep/video.png" className={`tool-video ${(type === 'NoteVideo') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteVideo')} />
-                        <img src="../../assets/img/keep/audio.png" className={`tool-audio ${(type === 'NoteAudio') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteAudio')} />
-                        <img src="../../assets/img/keep/todo.png" className={`tool-todo ${(type === 'NoteTodos') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteTodos')} />
+                        <img src="assets/img/keep/text.png" className={`tool-text ${(type === 'NoteTxt') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteTxt')} />
+                        <img src="assets/img/keep/photo.png" className={`tool-img ${(type === 'NoteImg') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteImg')} />
+                        <img src="assets/img/keep/map.png" className={`tool-map ${(type === 'NoteMap') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteMap')} />
+                        <img src="assets/img/keep/video.png" className={`tool-video ${(type === 'NoteVideo') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteVideo')} />
+                        <img src="assets/img/keep/audio.png" className={`tool-audio ${(type === 'NoteAudio') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteAudio')} />
+                        <img src="assets/img/keep/todo.png" className={`tool-todo ${(type === 'NoteTodos') ? 'active-tool' : ''}`} onClick={() => this.onTypeChange('NoteTodos')} />
                     </div>
                 </form>
             </section>
