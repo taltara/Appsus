@@ -40,7 +40,7 @@ export class NoteSearch extends React.Component {
 
         return (
             <section className={`search-section flex align-center space-center ${(inFocus) ? 'search-section-focus' : 'search-section-unfocus'}`}>
-                <img src="../../assets/img/search.svg" alt=""/>
+                <img src="assets/img/search.svg" alt=""/>
                 <input type="text" name='search' onBlur={this.onFocusToggle} onFocus={this.onFocusToggle} value={searchBy} onChange={this.handleChange} ref={this.firstInput} placeholder="Search" />
             </section>
         )
