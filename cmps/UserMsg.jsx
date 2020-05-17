@@ -1,6 +1,6 @@
 import {eventBus} from '../services/eventBusService.js'
 import { MsgCmp } from 'Books/MsgCmp.jsx';
-import { MicroMsg } from 'Keep/microMsg.jsx';
+import { MicroMsg } from 'Keep/MicroMsg.jsx';
 
 export class UserMsg extends React.Component {
     state = {msg: null}
