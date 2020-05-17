@@ -217,7 +217,7 @@ export class NoteTxt extends React.Component {
                 <span className="note-header flex align-center space-center">
                     <input type="text" name="title" className="title" defaultValue={title} onChange={this.handleChange}
                      onClick={this.avoidClickPropagation} placeholder="Title" />
-                    <img src="../assets/img/keep/pin.png" className={`tool-pin tool ${(hovering) ? 'show-tool' : ''}`} onClick={() => this.handleTools('pin')} />
+                    <img src="assets/img/keep/pin.png" className={`tool-pin tool ${(hovering) ? 'show-tool' : ''}`} onClick={() => this.handleTools('pin')} />
 
                 </span>
                 <textarea name="" cols="1" rows="5" placeholder="Take a note..." onChange={this.handleChange}
