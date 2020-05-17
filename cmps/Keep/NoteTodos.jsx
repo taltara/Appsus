@@ -241,7 +241,7 @@ export class NoteTodos extends React.Component {
                 <span className="note-header flex align-center space-center">
                     <input type="text" name="label" className="label" defaultValue={label} 
                     onChange={this.handleChange} placeholder="Label" />
-                    <img src="../assets/img/keep/pin.png" className={`tool-pin tool ${(hovering) ? 'show-tool' : ''}`}
+                    <img src="assets/img/keep/pin.png" className={`tool-pin tool ${(hovering) ? 'show-tool' : ''}`}
                         onClick={() => this.handleTools('pin')} />
                 </span>
 
@@ -255,7 +255,7 @@ export class NoteTodos extends React.Component {
 
                     }
                 </ul>
-                <img src="../../assets/img/keep/add.png" onClick={this.onAddTodo} className="add-input" />
+                <img src="assets/img/keep/add.png" onClick={this.onAddTodo} className="add-input" />
                 <NoteTools hovering={hovering} updateFromTools={this.updateFromTools} onArchiveNote={this.onArchiveNote}
                 avoidClickPropagation={this.avoidClickPropagation} onRemoveNote={this.onRemoveNote}  labels={labels} />
             </div>
