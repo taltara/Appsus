@@ -151,7 +151,7 @@ export class BookDetails extends React.Component {
                     <main className="book-details flex column align-center">
                         <span className="book-description-header flex space-between align-center"><button onClick={() => history.goBack()} className="back-btn btn">Back</button>
                             <p className={`book-title ${priceClassAdd}`}>{book.title}</p>
-                            <span className="on-sale-span">{isOnSale && <img src="../assets/img/sale.png" className="sale-icon" />}</span>
+                            <span className="on-sale-span">{isOnSale && <img src="assets/img/sale.png" className="sale-icon" />}</span>
                         </span>
                         <p className="book-subtitle">{book.subtitle}</p>
                         <div className="book-authors flex space-evenly">
